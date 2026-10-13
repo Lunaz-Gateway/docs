@@ -105,7 +105,7 @@ The URI also contains the address and the amount. A wallet fills these fields wh
 
 5. Make sure that your endpoint returns a 2xx status.
 
-6. Verify the `X-Lunaz-Signature` header of each request. See [Webhooks](../../guides/webhooks/).
+6. Verify the `X-Lunaz-Signature` header of each request, and ignore event ids that you already processed. See [Webhooks](../../guides/webhooks/#verify-the-signature).
 
 7. Wait for the `invoice.paid` webhook.
 
@@ -115,6 +115,8 @@ When the buyer pays, the status changes to `detected` and then to `paid` after o
 
 ```json title="invoice.paid"
 {
+  "id": "5dafb709-a848-464e-95c3-49154a5c7dfb",
+  "created_at": 1791914886,
   "type": "invoice.paid",
   "invoice_id": "8f14e45f-ceea-4672-9b2d-5c1d0a7e3b11",
   "status": "paid",

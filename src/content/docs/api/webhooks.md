@@ -12,7 +12,8 @@ Each request has these headers.
 | Header | Value |
 | --- | --- |
 | `Content-Type` | `application/json` |
-| `X-Lunaz-Signature` | Hex HMAC-SHA256 of the raw body. The key is your signing secret. |
+| `X-Lunaz-Event-Id` | The event id. It is the same on every attempt and equals `id` in the body. |
+| `X-Lunaz-Signature` | `t=<unix seconds>,v1=<hex HMAC-SHA256 of "{t}.{raw body}">`. The key is your signing secret. `t` is the send time of this attempt. |
 
 ## Event types
 
@@ -29,8 +30,12 @@ Each request has these headers.
 
 ## Payload
 
+Every event has `id` (the event id) and `created_at` (Unix seconds when the event was created). The body is the same on every attempt.
+
 ```json title="invoice.paid"
 {
+  "id": "5dafb709-a848-464e-95c3-49154a5c7dfb",
+  "created_at": 1791914886,
   "type": "invoice.paid",
   "invoice_id": "8f14e45f-ceea-4672-9b2d-5c1d0a7e3b11",
   "status": "paid",
@@ -47,6 +52,8 @@ Each request has these headers.
 
 ```json title="withdrawal.updated"
 {
+  "id": "0b7e2c41-93f5-4d8a-a6e1-2f4c9d1b7e05",
+  "created_at": 1791914886,
   "type": "withdrawal.updated",
   "invoice_id": null,
   "withdrawal_id": "c2d9a1e4-7b36-4f0a-9e52-0d8b1a6c3f77",
@@ -59,6 +66,8 @@ Each request has these headers.
 
 ```json title="plan.updated"
 {
+  "id": "e41a6d93-2c7b-4f18-b5d0-8a3e6f92c174",
+  "created_at": 1791914886,
   "type": "plan.updated",
   "invoice_id": null,
   "plan": "pro",
@@ -68,10 +77,10 @@ Each request has these headers.
 
 ## Verify the signature
 
-Compute the HMAC-SHA256 of the raw request body with your secret. Compare it with `X-Lunaz-Signature` in constant time. Reject the request if the values differ. The [Webhooks guide](../../guides/webhooks/#verify-the-signature) has code for Node.js, Python and Go.
+Get `t` and `v1` from `X-Lunaz-Signature`. Compute the HMAC-SHA256 of `{t}.{raw body}` with your secret. Compare it with `v1` in constant time. Reject the request if the values differ, or if `t` is more than 300 seconds from your current time. The [Webhooks guide](../../guides/webhooks/#verify-the-signature) has code for Node.js, Python and Go.
 
 ## Respond and retry
 
 Return a 2xx status within 5 seconds. Lunaz treats any other status, and any network error, as a failure.
 
-Lunaz tries each event up to 3 times: at once, after 10 s and after 60 s. After 3 failed attempts the event is marked failed, and you can send it again from the dashboard. Your endpoint can receive the same event more than once. Use the `invoice_id` to ignore a repeat.
+Lunaz tries each event up to 3 times: at once, after 10 s and after 60 s. After 3 failed attempts the event is marked failed, and you can send it again from the dashboard. Your endpoint can receive the same event more than once. Use the event `id` to ignore a repeat.

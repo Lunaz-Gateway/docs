@@ -40,10 +40,12 @@ To change the secret, rotate it on the same page. The old secret stops working a
 
 ## Payload
 
-Invoice and swap events have this body.
+Every event has an `id` (the event id, the same as the `X-Lunaz-Event-Id` header) and `created_at` (Unix seconds when the event was created). Invoice and swap events have this body.
 
 ```json title="invoice.paid"
 {
+  "id": "5dafb709-a848-464e-95c3-49154a5c7dfb",
+  "created_at": 1791914886,
   "type": "invoice.paid",
   "invoice_id": "8f14e45f-ceea-4672-9b2d-5c1d0a7e3b11",
   "status": "paid",
@@ -65,6 +67,8 @@ Invoice and swap events have this body.
 
 ```json title="withdrawal.updated"
 {
+  "id": "0b7e2c41-93f5-4d8a-a6e1-2f4c9d1b7e05",
+  "created_at": 1791914886,
   "type": "withdrawal.updated",
   "invoice_id": null,
   "withdrawal_id": "c2d9a1e4-7b36-4f0a-9e52-0d8b1a6c3f77",
@@ -77,6 +81,8 @@ Invoice and swap events have this body.
 
 ```json title="plan.updated"
 {
+  "id": "e41a6d93-2c7b-4f18-b5d0-8a3e6f92c174",
+  "created_at": 1791914886,
   "type": "plan.updated",
   "invoice_id": null,
   "plan": "pro",
@@ -86,13 +92,26 @@ Invoice and swap events have this body.
 
 ## Verify the signature
 
-Each request has an `X-Lunaz-Signature` header. The value is the hex HMAC-SHA256 of the raw request body. The key is your webhook secret.
+Each request has these headers.
+
+| Header | Value |
+| --- | --- |
+| `X-Lunaz-Event-Id` | The event id. It is the same on every attempt and equals `id` in the body. |
+| `X-Lunaz-Signature` | `t=<unix seconds>,v1=<hex signature>` |
+
+`t` is the time when Lunaz sent this attempt. `v1` is the hex HMAC-SHA256 of the string `{t}.{raw body}`: the value of `t`, a period, and the raw request body. The key is your webhook secret. Lunaz signs each attempt again with a new `t`. The body does not change between attempts.
 
 :::caution
 VERIFY THE SIGNATURE ON THE RAW BODY BEFORE YOU PARSE THE JSON. IF YOU PARSE FIRST, THE BYTES CAN CHANGE AND THE CHECK FAILS.
 :::
 
-Compare the values in constant time. Reject the request if they differ.
+To verify a request:
+
+1. Get `t` and `v1` from `X-Lunaz-Signature`.
+2. Compute the HMAC-SHA256 of `{t}.{raw body}` with your secret.
+3. Compare the result with `v1` in constant time. Reject the request if they differ.
+4. Reject the request if `t` is more than 300 seconds (5 minutes) from your current time. This stops replayed requests.
+5. Keep the event ids that you processed. If you get an id again, return a 2xx status and do nothing.
 
 <Tabs>
 <TabItem label="Node.js">
@@ -100,14 +119,22 @@ Compare the values in constant time. Reject the request if they differ.
 ```js title="verify.js"
 import crypto from "node:crypto";
 
-export function verify(rawBody, signature, secret) {
+const TOLERANCE = 300; // seconds
+
+export function verify(rawBody, header, secret) {
+  const parts = Object.fromEntries(
+    (header ?? "").split(",").map((p) => p.trim().split("=", 2)),
+  );
+  const t = Number(parts.t);
+  if (!Number.isInteger(t) || !/^[0-9a-f]{64}$/.test(parts.v1 ?? "")) {
+    return false;
+  }
+  if (Math.abs(Date.now() / 1000 - t) > TOLERANCE) return false;
   const expected = crypto
     .createHmac("sha256", secret)
-    .update(rawBody)
-    .digest("hex");
-  const a = Buffer.from(expected);
-  const b = Buffer.from(signature ?? "");
-  return a.length === b.length && crypto.timingSafeEqual(a, b);
+    .update(`${t}.${rawBody}`)
+    .digest();
+  return crypto.timingSafeEqual(Buffer.from(parts.v1, "hex"), expected);
 }
 ```
 
@@ -117,11 +144,18 @@ export function verify(rawBody, signature, secret) {
 ```python title="verify.py"
 import hashlib
 import hmac
+import time
+
+TOLERANCE = 300  # seconds
 
 
-def verify(raw_body: bytes, signature: str, secret: str) -> bool:
-    expected = hmac.new(secret.encode(), raw_body, hashlib.sha256).hexdigest()
-    return hmac.compare_digest(expected, signature or "")
+def verify(raw_body: bytes, header: str, secret: str) -> bool:
+    parts = dict(p.strip().split("=", 1) for p in (header or "").split(",") if "=" in p)
+    t, v1 = parts.get("t", ""), parts.get("v1", "")
+    if not t.isdigit() or abs(time.time() - int(t)) > TOLERANCE:
+        return False
+    expected = hmac.new(secret.encode(), t.encode() + b"." + raw_body, hashlib.sha256).hexdigest()
+    return hmac.compare_digest(expected, v1)
 ```
 
 </TabItem>
@@ -134,13 +168,39 @@ import (
 	"crypto/hmac"
 	"crypto/sha256"
 	"encoding/hex"
+	"strconv"
+	"strings"
+	"time"
 )
 
-func verify(rawBody []byte, signature, secret string) bool {
+const tolerance = 300 // seconds
+
+func verify(rawBody []byte, header, secret string) bool {
+	var t, v1 string
+	for _, p := range strings.Split(header, ",") {
+		k, v, _ := strings.Cut(strings.TrimSpace(p), "=")
+		switch k {
+		case "t":
+			t = v
+		case "v1":
+			v1 = v
+		}
+	}
+	ts, err := strconv.ParseInt(t, 10, 64)
+	if err != nil {
+		return false
+	}
+	if d := time.Now().Unix() - ts; d > tolerance || d < -tolerance {
+		return false
+	}
+	got, err := hex.DecodeString(v1)
+	if err != nil {
+		return false
+	}
 	mac := hmac.New(sha256.New, []byte(secret))
+	mac.Write([]byte(t + "."))
 	mac.Write(rawBody)
-	expected := hex.EncodeToString(mac.Sum(nil))
-	return hmac.Equal([]byte(expected), []byte(signature))
+	return hmac.Equal(got, mac.Sum(nil))
 }
 ```
 
@@ -162,7 +222,7 @@ To send a failed event again:
 
 The event gets 3 new attempts. You can also read the invoice with the API to find a missed status change.
 
-Your endpoint can receive the same event more than once. Use the `invoice_id` to ignore a repeat.
+Your endpoint can receive the same event more than once. Each attempt has the same event `id` and the same body. Use the `id` to ignore a repeat.
 
 ## Events in the dashboard
 
