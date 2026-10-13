@@ -1,0 +1,95 @@
+---
+title: Accept other crypto
+description: Let a buyer pay in USDC, USDT, SOL, ETH or BTC through NEAR Intents.
+---
+
+import { Steps, Aside } from '@astrojs/starlight/components';
+
+A buyer who holds another asset can pay an invoice without buying ZEC first. Lunaz uses NEAR Intents 1Click to swap the asset. The merchant still receives shielded ZEC at the invoice address.
+
+## How the swap works
+
+1. The buyer chooses an asset and gives a refund address.
+2. Lunaz asks 1Click for an exact-output quote for the invoice amount.
+3. Lunaz returns a one-time deposit address and the amount to send.
+4. The buyer sends the asset to the deposit address on the origin chain.
+5. 1Click swaps the asset and sends shielded ZEC to the invoice address.
+6. The watcher sees the ZEC. The invoice becomes `detected` and then `paid`.
+
+The buyer pays the 1Click fees. They are added to the amount that the buyer sends.
+
+## Assets
+
+Call `GET /v1/swap/assets` for the current list. It includes USDC, USDT, SOL, ETH, BTC and wNEAR on their main chains. Lunaz caches the list for 5 minutes.
+
+## Minimum amount
+
+A swap needs an invoice of approximately 0.001 ZEC (100000 zat) or more.
+
+## Start a swap
+
+<Steps>
+
+1. Create the invoice as for a direct ZEC payment.
+
+2. Call `GET /v1/swap/assets` and show the list to the buyer.
+
+3. Ask the buyer for a refund address on the origin chain.
+
+4. Call `POST /v1/invoices/{id}/swap` with the `asset_id` and `refund_to`.
+
+5. Show `deposit_address`, `amount_in_formatted` and `symbol` to the buyer.
+
+   If `deposit_memo` is not empty, show it as well.
+
+6. Show the `deadline` to the buyer.
+
+7. Follow the status with the WebSocket or the webhooks.
+
+</Steps>
+
+:::caution
+TELL THE BUYER TO SEND THE EXACT AMOUNT TO THE DEPOSIT ADDRESS BEFORE THE DEADLINE. A NEW SWAP REQUEST REPLACES THE OLD ONE, AND THE OLD DEPOSIT ADDRESS IS NOT VALID.
+:::
+
+```bash title="Request"
+curl -X POST https://api.example.com/v1/invoices/8f14e45f-ceea-4672-9b2d-5c1d0a7e3b11/swap \
+  -H "Content-Type: application/json" \
+  -d '{"asset_id": "nep141:usdc.example", "refund_to": "ExampleRefundAddress1111111111111111111111"}'
+```
+
+See [Swaps](/api/swaps/) for the response fields.
+
+## Swap statuses
+
+The `swap` object of an invoice and the WebSocket show the 1Click status. Lunaz passes the status through unchanged.
+
+| Status | Meaning |
+| --- | --- |
+| `PENDING_DEPOSIT` | Lunaz is waiting for the buyer's deposit. |
+| `KNOWN_DEPOSIT_TX` | 1Click saw the deposit transaction. |
+| `PROCESSING` | 1Click received the deposit and is swapping. |
+| `SUCCESS` | The swap finished. |
+| `INCOMPLETE_DEPOSIT` | The buyer sent less than the quoted amount. |
+| `REFUNDED` | 1Click returned the deposit to the refund address. |
+| `FAILED` | The swap failed. |
+
+`SUCCESS`, `REFUNDED` and `FAILED` are final.
+
+## When a swap fails
+
+If the swap is refunded or fails, the invoice stays `pending`. The buyer can start another swap or pay with ZEC. Lunaz sends a `swap.refunded`, `swap.failed` or `swap.incomplete_deposit` webhook.
+
+Only the last swap request of an invoice is active. After 1Click sees a deposit, Lunaz refuses a new swap request for that invoice.
+
+## Over and under delivery
+
+A swap can deliver a little more or less ZEC than the invoice. Lunaz cannot refund an underpayment. The merchant refunds any excess or shortfall.
+
+<Aside type="note">
+The origin-chain deposit is public. Only the final shielded leg is private. See [Security and privacy](/overview/security/).
+</Aside>
+
+## Limits
+
+Lunaz accepts 5 swap requests per invoice in 10 minutes. After that it returns 429.

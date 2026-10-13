@@ -1,0 +1,70 @@
+---
+title: Withdraw to bank
+description: Convert ZEC to local currency through a licensed off-ramp partner.
+---
+
+import { Steps, Aside, Badge } from '@astrojs/starlight/components';
+
+<Badge text="Mock partner" variant="caution" /> The current version uses a mock partner. The connection to the TransFi sandbox is the next step.
+
+You can convert ZEC to a local currency, for example IDR, through a licensed off-ramp partner. You are the customer of the partner. The partner does the identity check and pays your bank account.
+
+Lunaz creates the order, shows the deposit details and tracks the status. Lunaz never holds your funds. It keeps only the bank name and the last 4 digits of the account number.
+
+:::caution
+THE DEPOSIT ADDRESS IS A TRANSPARENT ADDRESS. THE ZEC LEAVES THE SHIELDED POOL, AND THE PARTNER CAN LINK THE WITHDRAWAL TO YOUR ACCOUNT.
+:::
+
+## Withdraw
+
+<Steps>
+
+1. Open the Withdraw page in the dashboard.
+
+2. Enter the amount of ZEC.
+
+3. Select the currency.
+
+   The dashboard shows a quote with the rate, the fees and the amount that you receive.
+
+4. Create the withdrawal.
+
+5. Complete the identity check and select your bank in the partner step.
+
+6. Send the exact amount of ZEC from your wallet to the deposit address.
+
+   :::caution
+   DO NOT SEND FUNDS IF THE WITHDRAWAL SHOWS SANDBOX. THE MOCK DEPOSIT ADDRESS IS NOT A VALID ZCASH ADDRESS.
+   :::
+
+7. Wait for the status `completed`.
+
+   The partner sends the money to your bank account.
+
+</Steps>
+
+## Quote and fees
+
+A quote is valid for 10 minutes. The minimum is 100000 zat. In the mock, the partner fee is 1.5% and the network fee is 0.0001 ZEC. The rates in the mock are indicative and are not real rates.
+
+The received total on the Withdraw page counts the payments that Lunaz detected. It is not the balance of your wallet.
+
+## Statuses
+
+| Status | Meaning |
+| --- | --- |
+| `awaiting_kyc` | You must complete the identity check and select a bank. |
+| `awaiting_deposit` | The partner waits for your ZEC. |
+| `deposit_received` | The partner received your ZEC. |
+| `converting` | The partner converts ZEC to fiat. |
+| `payout_processing` | The partner sends the money to your bank. |
+| `completed` | The money is paid. |
+| `expired` | The quote or the deposit window passed. |
+| `failed` | The withdrawal failed. |
+| `cancelled` | You cancelled the withdrawal. |
+
+You can cancel a withdrawal before `deposit_received`. Each status change sends a `withdrawal.updated` webhook. See [Webhooks](/guides/webhooks/).
+
+<Aside type="note">
+The status `quote` is never stored. It exists only in the quote step.
+</Aside>

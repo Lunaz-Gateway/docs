@@ -1,0 +1,79 @@
+---
+title: Accept ZEC
+description: Show a ZIP-321 payment request and follow the invoice status with WebSocket or polling.
+---
+
+import { Steps, Tabs, TabItem } from '@astrojs/starlight/components';
+
+A buyer pays an invoice with a shielded Zcash wallet. Your system creates the invoice, shows the payment request and waits for the result.
+
+## Show the payment request
+
+The response of `POST /v1/invoices` contains a `zip321_uri`. ZIP-321 is the Zcash standard for payment request URIs. The URI holds the address, the amount and a memo that links the payment to the invoice.
+
+<Steps>
+
+1. Create the invoice on your server.
+
+2. Send the `id`, `address` and `zip321_uri` to your checkout page.
+
+3. Encode the `zip321_uri` as a QR code.
+
+4. Show the QR code and the `address` as text.
+
+5. Show the amount and the time left before `expires_at`.
+
+</Steps>
+
+Do not put your API key in the checkout page. Create the invoice on your server only.
+
+## Follow the status
+
+You have two options to find the status of an invoice. Use the WebSocket for a live checkout page. Use polling for a simple backend check. The webhook is the best source for fulfilling an order.
+
+<Tabs>
+<TabItem label="WebSocket">
+
+Open `GET /v1/invoices/{id}/ws` as a WebSocket. No key is necessary. The invoice ID is the access token.
+
+The server sends a message when you connect and on each status change.
+
+```json title="Message"
+{"status": "detected"}
+```
+
+If a swap exists, the message also has a `swap_status` field with the 1Click status. The server closes the connection when the status is `paid`, `underpaid` or `expired`.
+
+```js title="Browser"
+const ws = new WebSocket(`wss://api.example.com/v1/invoices/${id}/ws`);
+ws.onmessage = (e) => {
+  const { status } = JSON.parse(e.data);
+  if (status === "paid") showConfirmation();
+};
+```
+
+Use `wss://` when your page uses HTTPS.
+
+</TabItem>
+<TabItem label="Polling">
+
+Call `GET /v1/invoices/{id}` every few seconds. Stop when the status is `paid`, `underpaid` or `expired`.
+
+```bash title="Poll an invoice"
+curl https://api.example.com/v1/invoices/8f14e45f-ceea-4672-9b2d-5c1d0a7e3b11
+```
+
+</TabItem>
+</Tabs>
+
+## Fulfil the order
+
+:::caution
+DO NOT SHIP GOODS WHEN THE STATUS IS `detected`. THE TRANSACTION CAN STILL FAIL TO CONFIRM.
+:::
+
+Wait for the `invoice.paid` webhook, or for the status `paid`. See [Webhooks](/guides/webhooks/).
+
+## Handle partial payments
+
+A buyer can pay the difference before the invoice expires, because payments to one address add up. If the invoice expires with a payment that is too small, the status is `underpaid` and Lunaz sends `invoice.underpaid`. You refund the buyer yourself.

@@ -1,0 +1,82 @@
+---
+title: Marketplaces
+description: Serve many sellers with one marketplace, one Lunaz account and one API key per seller.
+---
+
+import { FileTree, Steps } from '@astrojs/starlight/components';
+
+A marketplace sells for many shops. Each shop wants its payments in its own wallet. Lunaz supports this with one merchant account for each seller.
+
+## The model
+
+- Each seller has its own Lunaz account, viewing key, wallet and API key.
+- The marketplace holds one API key per seller on its server.
+- An order from a shop creates an invoice with the key of that shop. The payment goes privately to that seller's wallet.
+- The marketplace never sees a spending key.
+
+The Platform plan has 50 API keys and no limit on invoices. See [Pricing](/pricing/).
+
+## Set up a new seller
+
+<Steps>
+
+1. Ask the seller to create a Lunaz account.
+
+2. Ask the seller to connect a viewing key in the dashboard.
+
+3. Ask the seller to create an API key.
+
+   :::caution
+   THE API KEY GIVES ACCESS TO THE SELLER'S INVOICES. SEND IT THROUGH A SECURE CHANNEL. DO NOT SHARE IT IN A PUBLIC MESSAGE.
+   :::
+
+4. Store the key on the marketplace server, next to the shop ID.
+
+5. Set the webhook URL of the seller account to your endpoint, if you want events.
+
+</Steps>
+
+## Keep keys on the server
+
+The browser must never receive an API key. Create invoices in server code only. The code looks up the key of the shop and sends `Authorization: Bearer <key>` to the API. The browser receives the invoice and opens the WebSocket for live status. The WebSocket needs no key.
+
+Compute prices on the server from your own catalog. If you trust a price from the browser, the buyer can change it.
+
+```js title="Server function (sketch)"
+async function createInvoice(shopSlug, amountZat) {
+  const apiKey = SELLER_KEYS[shopSlug]; // loaded from server environment
+  if (!apiKey) throw new Error("unknown shop");
+  const res = await fetch(`${LUNAZ_API_URL}/v1/invoices`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${apiKey}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ amount_zat: amountZat }),
+  });
+  return res.json();
+}
+```
+
+## Reference: Sunday Market
+
+Sunday Market is a small multi-seller marketplace that we built as a reference client. Each shop is a separate Lunaz merchant. One gateway serves all of them.
+
+- The cart groups products by shop. Each shop has its own checkout.
+- The checkout creates the invoice with the key of that shop. The buyer pays with ZEC or with another crypto asset.
+- A payment page shows a QR code, the address and the live status over WebSocket. When the payment is in, it shows the LUNAS confirmation.
+- Prices come from the server catalog, so the browser cannot change them.
+- The shop keys are in a server-side setting that lists the shop slug and the API key of each seller. The keys are never sent to the browser.
+
+<FileTree>
+
+- src
+  - lib
+    - catalog.ts shops and products
+    - invoice.ts server functions that call the API
+
+</FileTree>
+
+## Operating notes
+
+Anyone can place an order, and an order creates an invoice with the key of that shop. Each invoice counts toward the plan limit of that seller account. Rate-limit order requests at your proxy.
