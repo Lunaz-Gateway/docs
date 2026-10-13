@@ -3,7 +3,7 @@ title: Webhooks
 description: Set the webhook URL, rotate the secret, send a test and read the delivery log.
 ---
 
-All endpoints on this page need a session token. See the [guide](/guides/webhooks/) for payloads and signature checks.
+All endpoints on this page need a session token. See the [guide](../../guides/webhooks/) for payloads and signature checks.
 
 ## Get the webhook
 

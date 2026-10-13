@@ -3,7 +3,7 @@ title: Plans and billing
 description: List plans, read your usage and pay for a plan with a ZEC invoice.
 ---
 
-See [Pricing](/pricing/) for the plan table.
+See [Pricing](../../pricing/) for the plan table.
 
 ## List plans
 
@@ -126,4 +126,4 @@ When you reach a limit, the API returns 402 with this body. It applies to `POST 
 
 ## Plan webhook
 
-Lunaz sends `plan.updated` when a payment activates a plan and when a paid plan expires. See [Webhooks](/guides/webhooks/).
+Lunaz sends `plan.updated` when a payment activates a plan and when a paid plan expires. See [Webhooks](../../guides/webhooks/).

@@ -29,7 +29,7 @@ No. Lunaz is a managed service. We run the gateway, the chain watcher and the cr
 
 ## Where do I find my viewing key?
 
-In ZODL, open the account settings and export the viewing key. With zcash-devtool, run `wallet list-accounts`. See the [Quickstart](/get-started/quickstart/).
+In ZODL, open the account settings and export the viewing key. With zcash-devtool, run `wallet list-accounts`. See the [Quickstart](../../get-started/quickstart/).
 
 ## Can I change my viewing key?
 
@@ -37,8 +37,8 @@ No. You can set it one time. Check it before you save it.
 
 ## What does it cost?
 
-There is a free tier. See [Pricing](/pricing/).
+There is a free tier. See [Pricing](../../pricing/).
 
 ## What happens if my webhook endpoint is down?
 
-Lunaz retries after 10 s, 60 s and 300 s. Every attempt appears in the delivery log. See [Webhooks](/guides/webhooks/).
+Lunaz retries after 10 s, 60 s and 300 s. Every attempt appears in the delivery log. See [Webhooks](../../guides/webhooks/).

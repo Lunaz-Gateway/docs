@@ -58,7 +58,7 @@ curl -X POST https://api.example.com/v1/invoices/8f14e45f-ceea-4672-9b2d-5c1d0a7
   -d '{"asset_id": "nep141:usdc.example", "refund_to": "ExampleRefundAddress1111111111111111111111"}'
 ```
 
-See [Swaps](/api/swaps/) for the response fields.
+See [Swaps](../../api/swaps/) for the response fields.
 
 ## Swap statuses
 
@@ -87,7 +87,7 @@ Only the last swap request of an invoice is active. After 1Click sees a deposit,
 A swap can deliver a little more or less ZEC than the invoice. Lunaz cannot refund an underpayment. The merchant refunds any excess or shortfall.
 
 <Aside type="note">
-The origin-chain deposit is public. Only the final shielded leg is private. See [Security and privacy](/overview/security/).
+The origin-chain deposit is public. Only the final shielded leg is private. See [Security and privacy](../../overview/security/).
 </Aside>
 
 ## Limits

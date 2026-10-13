@@ -114,4 +114,4 @@ Auth: session. `limit` is from 1 to 200. The default is 50. The newest invoices 
 ]
 ```
 
-See [Concepts](/get-started/concepts/) for the statuses.
+See [Concepts](../../get-started/concepts/) for the statuses.

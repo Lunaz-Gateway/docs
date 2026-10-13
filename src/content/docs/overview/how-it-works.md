@@ -38,7 +38,7 @@ A second task does the same for the mempool. For this reason an invoice shows as
 
 A buyer with another asset deposits it on the origin chain. NEAR Intents 1Click swaps the asset and sends shielded ZEC to the invoice address. The watcher sees that ZEC like any other payment.
 
-Lunaz polls the swap status every 10 seconds. See [Accept other crypto](/guides/accept-other-crypto/).
+Lunaz polls the swap status every 10 seconds. See [Accept other crypto](../../guides/accept-other-crypto/).
 
 ## Where the keys live
 

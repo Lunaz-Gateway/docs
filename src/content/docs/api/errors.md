@@ -42,7 +42,7 @@ Use the status code for your logic. The message text can change.
 
 ## Plan limits (402)
 
-A 402 means that your plan does not allow the action. Free allows 100 invoices each month and 2 active API keys. To fix the error, upgrade the plan or wait for the next month. For API keys, you can also revoke a key. See [Pricing](/pricing/).
+A 402 means that your plan does not allow the action. Free allows 100 invoices each month and 2 active API keys. To fix the error, upgrade the plan or wait for the next month. For API keys, you can also revoke a key. See [Pricing](../../pricing/).
 
 Invoices that pay for a Lunaz plan do not count toward the limit.
 

@@ -30,4 +30,4 @@ txid,action_index,pool,invoice_id,value_zec,block_height,invoice_status
 3b1c0f9e...,0,orchard,8f14e45f-ceea-4672-9b2d-5c1d0a7e3b11,0.05000000,3100000,paid
 ```
 
-Error: 400 for an invalid `kind` or range. See the [guide](/guides/accountant-export/) for all columns.
+Error: 400 for an invalid `kind` or range. See the [guide](../../guides/accountant-export/) for all columns.

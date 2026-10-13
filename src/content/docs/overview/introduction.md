@@ -30,7 +30,7 @@ Shielded Zcash hides these details. Lunaz adds the parts that a shop needs to ta
 - A CSV export for your accountant.
 - A withdraw-to-bank flow through a licensed partner.
 
-All plans include all features. The plans differ only by volume. See [Pricing](/pricing/).
+All plans include all features. The plans differ only by volume. See [Pricing](../../pricing/).
 
 ## The name
 
@@ -38,5 +38,5 @@ The name comes from the Indonesian word *lunas*, which means "paid in full". The
 
 ## Next steps
 
-- Read [How it works](/overview/how-it-works/).
-- Follow the [Quickstart](/get-started/quickstart/) to create your first invoice.
+- Read [How it works](../how-it-works/).
+- Follow the [Quickstart](../../get-started/quickstart/) to create your first invoice.

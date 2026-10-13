@@ -29,7 +29,7 @@ A final status can still change. A late top-up that brings the total to the amou
 
 An invoice is `paid` after one confirmation. A confirmation takes about 75 seconds. A payment that Lunaz sees in the mempool is `detected` in seconds.
 
-Lunaz does not handle chain reorgs. See [Limitations](/help/limitations/).
+Lunaz does not handle chain reorgs. See [Limitations](../../help/limitations/).
 
 ## Overpayment and underpayment
 
@@ -56,4 +56,4 @@ If a cross-chain swap is active and the invoice expires within 10 minutes, Lunaz
 | Public, by invoice ID | Read an invoice, WebSocket status, swap assets, start a swap. |
 | Session token | Everything else: account, API keys, webhooks, export, withdrawals, billing. |
 
-See [Authentication](/api/authentication/).
+See [Authentication](../../api/authentication/).

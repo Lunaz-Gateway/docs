@@ -3,7 +3,7 @@ title: Withdrawals
 description: Quote, create and track a withdrawal to a bank account.
 ---
 
-All endpoints on this page need a session token. Read the [guide](/guides/withdraw-to-bank/) first. The current partner is a mock.
+All endpoints on this page need a session token. Read the [guide](../../guides/withdraw-to-bank/) first. The current partner is a mock.
 
 :::caution
 THE MOCK DEPOSIT ADDRESS IS NOT A VALID ZCASH ADDRESS. DO NOT SEND FUNDS TO IT.

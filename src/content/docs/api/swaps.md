@@ -3,7 +3,7 @@ title: Swaps
 description: List swap assets and start a cross-chain payment for an invoice.
 ---
 
-See the [guide](/guides/accept-other-crypto/) for the full flow.
+See the [guide](../../guides/accept-other-crypto/) for the full flow.
 
 ## List assets
 

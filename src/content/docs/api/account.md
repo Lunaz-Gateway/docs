@@ -59,5 +59,5 @@ Errors:
 
 ## Related
 
-- [Invoices](/api/invoices/) lists your invoices with `GET /v1/account/invoices`.
-- [Plans and billing](/api/plans-and-billing/) shows your plan and usage.
+- [Invoices](../invoices/) lists your invoices with `GET /v1/account/invoices`.
+- [Plans and billing](../plans-and-billing/) shows your plan and usage.

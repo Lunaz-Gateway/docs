@@ -2,9 +2,13 @@
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
 
+// Path prefix when the docs are served below the domain root, e.g. "/docs"
+const base = (process.env.DOCS_BASE_PATH || '').replace(/\/$/, '');
+
 export default defineConfig({
 	// Public URL, needed for the sitemap and canonical links (set at build time)
 	site: process.env.DOCS_SITE_URL || undefined,
+	base: base || undefined,
 	integrations: [
 		starlight({
 			title: 'Lunaz Docs',

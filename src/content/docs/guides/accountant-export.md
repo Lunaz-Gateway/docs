@@ -15,7 +15,7 @@ curl -H "Authorization: Bearer <session token>" \
   -o lunaz-invoices.csv
 ```
 
-See [Export](/api/export/) for the parameters. A file has at most 50000 rows.
+See [Export](../../api/export/) for the parameters. A file has at most 50000 rows.
 
 ## Invoice export
 
