@@ -19,9 +19,9 @@ Lunaz is non-custodial. The server holds viewing keys, never spending keys.
 
 ## Who sees your data
 
-Only the logged-in merchant can see the ledger and the CSV export. An API key can create invoices and nothing else.
+Only the signed-in merchant can see the ledger and the CSV export. An API key can create invoices and nothing else.
 
-Lunaz stores passwords as Argon2id hashes. It stores session tokens and API keys as hashes. Login and signup have rate limits.
+Lunaz does not store passwords. You sign in with an email code sent through Magic, and Lunaz stores only your email. It stores session tokens and API keys as hashes.
 
 ## What is public
 

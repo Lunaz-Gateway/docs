@@ -25,7 +25,7 @@ Orchard and Ironwood, in both the mempool and mined blocks. A payment shows as `
 
 ## Do I need to run any infrastructure?
 
-No. Lunaz is a managed service. We run the gateway, the chain watcher and the cross-chain swaps. You sign up, connect the viewing key of your wallet and call the API.
+No. Lunaz is a managed service. We run the gateway, the chain watcher and the cross-chain swaps. You sign in with your email, connect the viewing key of your wallet and call the API.
 
 ## Where do I find my viewing key?
 

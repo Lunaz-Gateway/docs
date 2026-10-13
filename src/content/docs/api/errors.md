@@ -50,7 +50,6 @@ Invoices that pay for a Lunaz plan do not count toward the limit.
 
 | Endpoint | Limit |
 | --- | --- |
-| Signup and login | 10 attempts for each email and 30 for each client IP in 15 minutes. |
 | `POST /v1/invoices/{id}/swap` | 5 requests for each invoice in 10 minutes. |
 | `POST /v1/account/billing/checkout` | 10 requests for each account in 15 minutes. |
 

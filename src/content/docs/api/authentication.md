@@ -27,46 +27,13 @@ Revoke a key at once if it leaks.
 
 ## Session tokens
 
-A session token is valid for 30 days. Get one with signup or login.
+A session token is valid for 30 days. You get one when you sign in to the dashboard with your email and a one-time code. Sign-in happens in the dashboard, so the API has no public sign-in endpoint. Use an [API key](/api/api-keys/) for integrations.
 
-### POST /v1/auth/signup
-
-Auth: none.
-
-| Field | Type | Notes |
-| --- | --- | --- |
-| `email` | string | Must be a valid email. |
-| `name` | string | Required. |
-| `password` | string | At least 8 characters. |
-
-```json title="Response 201"
-{ "token": "sess_example_token_0123456789abcdef" }
-```
-
-Errors: 400 for invalid input, 409 `email already registered`, 429 `too many attempts, try again later`.
-
-### POST /v1/auth/login
-
-Auth: none.
-
-| Field | Type |
-| --- | --- |
-| `email` | string |
-| `password` | string |
-
-```json title="Response 200"
-{ "token": "sess_example_token_0123456789abcdef" }
-```
-
-Errors: 401 `invalid email or password`, 429.
+Lunaz removed password sign-in. `POST /v1/auth/signup` and `POST /v1/auth/login` return 410.
 
 ### POST /v1/auth/logout
 
 Auth: session. Response: 204 with no body.
-
-## Rate limits
-
-Signup and login accept 10 attempts for each email and 30 for each client IP in 15 minutes. After that the API returns 429. See [Errors](/api/errors/).
 
 ## Health check
 

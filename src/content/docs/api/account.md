@@ -23,6 +23,18 @@ All endpoints on this page need a session token.
 
 `network` is `main` or `test`. `webhook_url` is `null` until you set it. `plan` is the plan ID that applies now.
 
+## Set the account name
+
+`PUT /v1/account`
+
+| Field | Type | Notes |
+| --- | --- | --- |
+| `name` | string | 1 to 80 characters. |
+
+The name is optional. A new account has an empty name. Set it in Settings in the dashboard or with this endpoint.
+
+Response: 204 with no body.
+
 ## Set the viewing key
 
 `PUT /v1/account/ufvk`
