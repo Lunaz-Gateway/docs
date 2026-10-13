@@ -45,6 +45,6 @@ docker run -d --name lunaz-docs \
 - The container runs as the nginx user (uid 101) and needs no writable paths except `/tmp`.
 - `GET /healthz` returns `ok`. The image health check uses it.
 - Redirects are relative, so the site works behind a TLS reverse proxy (Caddy, nginx, Traefik or Dokploy).
-- With `DOCS_BASE_PATH=/docs`, the image serves the site under `/docs` itself. Do not strip the prefix at the proxy (in Dokploy, leave Strip Path off for the docs).
+- With `DOCS_BASE_PATH=/docs`, the image serves the site under `/docs`. It works whether or not the proxy strips the prefix (Dokploy Strip Path on or off).
 - Hashed assets under `/_astro/` are cached for one year. Unknown paths return the Starlight 404 page.
 - Changing `DOCS_SITE_URL` or any page needs a new image.
