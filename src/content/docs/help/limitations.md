@@ -31,4 +31,4 @@ This list describes the current version.
 ## Webhooks
 
 - An event is tried 3 times. After that it stays failed until you retry it from the dashboard.
-- Use the delivery log to find failed deliveries.
+- Use the Failed tab on the webhooks page to find failed events.

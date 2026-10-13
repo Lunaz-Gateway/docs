@@ -26,7 +26,7 @@ Shielded Zcash hides these details. Lunaz adds the parts that a shop needs to ta
 - A new shielded address for every invoice, with a ZIP-321 payment URI for the QR code.
 - Payment detection in seconds, before the transaction is mined.
 - Cross-chain payments through NEAR Intents.
-- Signed webhooks with a delivery log.
+- Signed webhooks with automatic retries and a retry button for failed events.
 - A CSV export for your accountant.
 - A withdraw-to-bank flow through a licensed partner.
 
