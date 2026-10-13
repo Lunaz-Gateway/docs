@@ -1,0 +1,132 @@
+---
+title: Quickstart
+description: Create an account, connect your viewing key and receive your first payment.
+---
+
+import { Steps, Aside, Tabs, TabItem } from '@astrojs/starlight/components';
+
+This procedure takes you from a new account to a paid invoice. You need a Zcash wallet that can export a Unified Full Viewing Key (UFVK).
+
+## Create your account and connect your wallet
+
+<Steps>
+
+1. Open the Lunaz dashboard and go to the signup page.
+
+2. Enter your email, a name and a password.
+
+   The password must have at least 8 characters.
+
+3. Export the UFVK from your wallet.
+
+   In ZODL, open the account settings and export the viewing key. With zcash-devtool, run `wallet list-accounts`. The command prints the UFVK of each account. On mainnet the UFVK starts with `uview1`.
+
+4. Make sure that the UFVK is correct.
+
+   :::caution
+   MAKE SURE THAT THE UFVK IS CORRECT BEFORE YOU SAVE IT. YOU CANNOT CHANGE IT AFTER YOU SET IT.
+   :::
+
+5. Paste the UFVK in the dashboard onboarding and save it.
+
+6. Open the API keys page and create an API key.
+
+   :::caution
+   COPY THE KEY AT ONCE. THE DASHBOARD SHOWS THE KEY ONE TIME ONLY.
+   :::
+
+7. Keep the key on your server.
+
+</Steps>
+
+## Create your first invoice
+
+An invoice amount is in zatoshi. 1 ZEC is 100000000 zatoshi.
+
+<Steps>
+
+1. Send this request from your server. Replace the key with your API key.
+
+   ```bash title="Create an invoice"
+   curl -X POST https://api.example.com/v1/invoices \
+     -H "Authorization: Bearer lz_your_api_key" \
+     -H "Content-Type: application/json" \
+     -d '{"amount_zat": 5000000, "expires_in_secs": 900}'
+   ```
+
+   Use the API base URL that Lunaz gave you instead of `api.example.com`.
+
+2. Read the response.
+
+   ```json title="Response"
+   {
+     "id": "8f14e45f-ceea-4672-9b2d-5c1d0a7e3b11",
+     "address": "u1q8x4example7shieldedaddress",
+     "amount_zat": 5000000,
+     "zip321_uri": "zcash:u1q8x4example7shieldedaddress?amount=0.05&memo=bHVuYXo6OGYxNGU0NWY",
+     "status": "pending",
+     "expires_at": 1792000900
+   }
+   ```
+
+3. Save the `id` with your order.
+
+</Steps>
+
+## Show the QR code
+
+<Steps>
+
+1. Encode the `zip321_uri` value as a QR code.
+
+2. Show the QR code to the buyer.
+
+3. Tell the buyer to scan it with a Zcash wallet.
+
+</Steps>
+
+The URI also contains the address and the amount. A wallet fills these fields when the buyer scans the code.
+
+## Receive the webhook
+
+<Steps>
+
+1. Open the webhooks page in the dashboard.
+
+2. Enter the URL of your endpoint.
+
+3. Copy the signing secret.
+
+4. Send a test delivery from the dashboard.
+
+5. Make sure that your endpoint returns a 2xx status.
+
+6. Verify the `X-Lunaz-Signature` header of each request. See [Webhooks](/guides/webhooks/).
+
+7. Wait for the `invoice.paid` webhook.
+
+</Steps>
+
+When the buyer pays, the status changes to `detected` and then to `paid` after one confirmation. Lunaz sends `invoice.paid` with this body.
+
+```json title="invoice.paid"
+{
+  "type": "invoice.paid",
+  "invoice_id": "8f14e45f-ceea-4672-9b2d-5c1d0a7e3b11",
+  "status": "paid",
+  "amount_zat": 5000000,
+  "received_zat": 5000000,
+  "overpaid_zat": 0,
+  "txid": "3b1c0f9e2a7d4c58b6e1a0f3d9c27b845e6a1f0d2c3b4a59687766554433221f",
+  "swap": null
+}
+```
+
+<Aside>
+You can also follow the status live. See [Accept ZEC](/guides/accept-zec/) for the WebSocket and polling options.
+</Aside>
+
+## Next steps
+
+- Read the [Concepts](/get-started/concepts/) page for the invoice statuses.
+- Add [other crypto](/guides/accept-other-crypto/) to your checkout.
