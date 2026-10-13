@@ -35,6 +35,8 @@ Lunaz does not handle chain reorgs. See [Limitations](../../help/limitations/).
 
 Payments to one address add up. A buyer can pay the difference before the invoice expires.
 
+- `received_zat` counts only confirmed payments, that is, payments in a mined block.
+- `pending_zat` is the sum of payments that Lunaz saw in the mempool but that are not mined yet. A pending payment can still fail. Do not ship goods or refund on a pending amount.
 - `overpaid_zat` is the received amount minus the invoice amount, or 0. You refund an excess yourself.
 - If the invoice expires with a mined payment that is too small, the status is `underpaid`. You refund the buyer yourself.
 

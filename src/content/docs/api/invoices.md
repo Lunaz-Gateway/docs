@@ -60,6 +60,7 @@ Auth: none. The invoice ID is the access token.
   "txid": "3b1c0f9e2a7d4c58b6e1a0f3d9c27b845e6a1f0d2c3b4a59687766554433221f",
   "received_zat": 5000000,
   "overpaid_zat": 0,
+  "pending_zat": 0,
   "swap": null
 }
 ```
