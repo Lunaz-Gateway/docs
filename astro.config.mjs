@@ -3,6 +3,8 @@ import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
 
 export default defineConfig({
+	// Public URL, needed for the sitemap and canonical links (set at build time)
+	site: process.env.DOCS_SITE_URL || undefined,
 	integrations: [
 		starlight({
 			title: 'Lunaz Docs',
