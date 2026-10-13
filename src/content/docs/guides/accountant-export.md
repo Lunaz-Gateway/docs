@@ -3,23 +3,21 @@ title: Accountant export
 description: Export invoices or payments as CSV, with the USD rate recorded at payment.
 ---
 
-The CSV export gives your accountant a complete record of your payments. Only the logged-in merchant can download it. You cannot use an API key for it.
+The CSV export gives your accountant a complete record of your payments. Only the signed-in merchant can download it.
 
 ## Download the file
 
-Open the invoices page in the dashboard and use the export option. Or call the API with a session token.
+1. Open the Invoices page in the dashboard.
+2. Select Export CSV.
+3. Choose a date range.
+4. Choose Invoices or Payments.
+5. Select Download.
 
-```bash title="Export invoices for a period"
-curl -H "Authorization: Bearer <session token>" \
-  "https://api.example.com/v1/account/export.csv?kind=invoices&from=1790000000&to=1792600000" \
-  -o lunaz-invoices.csv
-```
-
-See [Export](../../api/export/) for the parameters. A file has at most 50000 rows.
+A file has at most 50000 rows.
 
 ## Invoice export
 
-The default `kind` is `invoices`. The file has one row for each invoice.
+Choose Invoices for one row for each invoice.
 
 | Column | Meaning |
 | --- | --- |
@@ -42,11 +40,11 @@ ZEC amounts are exact strings with 8 decimals.
 
 ### The USD rate
 
-Lunaz records `usd_rate` from the 1Click price when the invoice turns `paid` or `underpaid`. The rate does not change later. Invoices from before this feature have no rate.
+Lunaz records `usd_rate` from the swap price when the invoice turns `paid` or `underpaid`. The rate does not change later. Invoices from before this feature have no rate.
 
 ## Payments export
 
-Use `kind=payments` for one row for each shielded action that paid one of your invoices.
+Choose Payments for one row for each shielded action that paid one of your invoices.
 
 | Column | Meaning |
 | --- | --- |
@@ -58,6 +56,6 @@ Use `kind=payments` for one row for each shielded action that paid one of your i
 | `block_height` | The block height. Empty while the payment is only in the mempool. |
 | `invoice_status` | The status of the invoice. |
 
-## Period filter
+## Date range
 
-`from` and `to` are Unix times. They filter on the creation time of the invoice. Without them, the export has all invoices.
+The date range filters on the creation time of the invoice. Without a range, the export has all invoices.

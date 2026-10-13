@@ -23,7 +23,7 @@ If you paste a full viewing key (UFVK), Lunaz reduces it to the incoming key whe
 
 Only the signed-in merchant can see the ledger and the CSV export. An API key can create invoices and nothing else.
 
-Lunaz does not store passwords. You sign in with an email code sent through Magic, and Lunaz stores only your email. It stores session tokens and API keys as hashes.
+Lunaz does not store passwords. You sign in with an email code. Lunaz stores only your incoming viewing key and your email.
 
 ## What is public
 

@@ -91,27 +91,4 @@ The server sends a message when you connect and on each status change. If a swap
 {"status": "detected", "swap_status": "SUCCESS"}
 ```
 
-## List invoices
-
-`GET /v1/account/invoices?limit=50`
-
-Auth: session. `limit` is from 1 to 200. The default is 50. The newest invoices come first.
-
-```json title="Response 200"
-[
-  {
-    "id": "8f14e45f-ceea-4672-9b2d-5c1d0a7e3b11",
-    "status": "paid",
-    "amount_zat": 5000000,
-    "received_zat": 5000000,
-    "overpaid_zat": 0,
-    "address": "u1q8x4example7shieldedaddress",
-    "txid": "3b1c0f9e2a7d4c58b6e1a0f3d9c27b845e6a1f0d2c3b4a59687766554433221f",
-    "created_at": 1792000000,
-    "expires_at": 1792000900,
-    "paid_at": 1792000210
-  }
-]
-```
-
 See [Concepts](../../get-started/concepts/) for the statuses.

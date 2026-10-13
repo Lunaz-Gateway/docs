@@ -3,13 +3,11 @@ title: Withdraw to bank
 description: Convert ZEC to local currency through a licensed off-ramp partner.
 ---
 
-import { Steps, Aside, Badge } from '@astrojs/starlight/components';
-
-<Badge text="Mock partner" variant="caution" /> The current version uses a mock partner. The connection to the TransFi sandbox is the next step.
+import { Steps, Aside } from '@astrojs/starlight/components';
 
 You can convert ZEC to a local currency, for example IDR, through a licensed off-ramp partner. You are the customer of the partner. The partner does the identity check and pays your bank account.
 
-Lunaz creates the order, shows the deposit details and tracks the status. Lunaz never holds your funds. It keeps only the bank name and the last 4 digits of the account number.
+Lunaz creates the order, shows the deposit details and tracks the status. Lunaz never holds your funds.
 
 :::caution
 THE DEPOSIT ADDRESS IS A TRANSPARENT ADDRESS. THE ZEC LEAVES THE SHIELDED POOL, AND THE PARTNER CAN LINK THE WITHDRAWAL TO YOUR ACCOUNT.
@@ -33,10 +31,6 @@ THE DEPOSIT ADDRESS IS A TRANSPARENT ADDRESS. THE ZEC LEAVES THE SHIELDED POOL, 
 
 6. Send the exact amount of ZEC from your wallet to the deposit address.
 
-   :::caution
-   DO NOT SEND FUNDS IF THE WITHDRAWAL SHOWS SANDBOX. THE MOCK DEPOSIT ADDRESS IS NOT A VALID ZCASH ADDRESS.
-   :::
-
 7. Wait for the status `completed`.
 
    The partner sends the money to your bank account.
@@ -45,7 +39,7 @@ THE DEPOSIT ADDRESS IS A TRANSPARENT ADDRESS. THE ZEC LEAVES THE SHIELDED POOL, 
 
 ## Quote and fees
 
-A quote is valid for 10 minutes. The minimum is 100000 zat. In the mock, the partner fee is 1.5% and the network fee is 0.0001 ZEC. The rates in the mock are indicative and are not real rates.
+A quote is valid for 10 minutes. The minimum is 100000 zat. The quote shows the rate and the fees before you confirm.
 
 The received total on the Withdraw page counts the payments that Lunaz detected. It is not the balance of your wallet.
 

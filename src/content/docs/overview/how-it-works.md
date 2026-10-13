@@ -43,7 +43,7 @@ Lunaz polls the swap status every 10 seconds. See [Accept other crypto](../../gu
 ## Where the keys live
 
 - Your backend holds an API key. The key can create invoices and nothing else.
-- The dashboard and a marketplace call the API from server functions. Session tokens and API keys stay on those servers. The browser never receives them.
+- Keep your API key on your server. Never put it in browser code.
 - The invoice ID works as the access token for the public endpoints: invoice status, WebSocket and swap. Treat the checkout link as a secret.
 - Your wallet holds the spending keys. No Lunaz service has them.
 

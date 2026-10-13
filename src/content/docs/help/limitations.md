@@ -24,12 +24,11 @@ This list describes the current version.
 
 ## Withdraw to bank
 
-- The flow uses a mock partner. The TransFi integration is not available yet.
-- The mock deposit address is not a valid Zcash address, so no wallet can send funds to it.
+- Withdrawal to a bank is not available in every region yet.
 - The received total on the Withdraw page counts payments that Lunaz detected. It is not the balance of your wallet.
 - A withdrawal to a bank is not private. The deposit address is transparent.
 
 ## Webhooks
 
-- Retries are kept in memory. A service restart clears pending retries.
+- A failed delivery is retried 3 times, then Lunaz stops.
 - Use the delivery log to find failed deliveries.

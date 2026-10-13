@@ -46,7 +46,7 @@ Compute prices on the server from your own catalog. If you trust a price from th
 async function createInvoice(shopSlug, amountZat) {
   const apiKey = SELLER_KEYS[shopSlug]; // loaded from server environment
   if (!apiKey) throw new Error("unknown shop");
-  const res = await fetch(`${LUNAZ_API_URL}/v1/invoices`, {
+  const res = await fetch(`${API_URL}/v1/invoices`, {
     method: "POST",
     headers: {
       Authorization: `Bearer ${apiKey}`,

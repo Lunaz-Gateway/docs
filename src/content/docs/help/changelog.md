@@ -7,6 +7,6 @@ description: Changes to Lunaz and to this documentation.
 
 Lunaz now asks for an incoming viewing key. Full viewing keys are reduced to their incoming part.
 
-Sign-in uses an email code through Magic. Passwords were removed.
+Sign-in uses an email code. Passwords were removed.
 
 First public docs.

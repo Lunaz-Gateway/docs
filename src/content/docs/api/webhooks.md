@@ -1,74 +1,76 @@
 ---
 title: Webhooks
-description: Set the webhook URL, rotate the secret, send a test and read the delivery log.
+description: Receive and verify webhook events from Lunaz.
 ---
 
-All endpoints on this page need a session token. See the [guide](../../guides/webhooks/) for payloads and signature checks.
+Lunaz sends a signed POST request to your endpoint when an invoice, swap, withdrawal or plan changes. You set the endpoint URL and read the signing secret on the webhooks page of the dashboard. See the [Webhooks guide](../../guides/webhooks/) for the setup steps.
 
-## Get the webhook
+## Request
 
-`GET /v1/account/webhook`
+Each request has these headers.
 
-```json title="Response 200"
+| Header | Value |
+| --- | --- |
+| `Content-Type` | `application/json` |
+| `X-Lunaz-Signature` | Hex HMAC-SHA256 of the raw body. The key is your signing secret. |
+
+## Event types
+
+| Type | When |
+| --- | --- |
+| `invoice.paid` | The invoice is `paid`. |
+| `invoice.underpaid` | The invoice expired with a payment that is too small. |
+| `swap.refunded` | The swap was refunded. The invoice stays `pending`. |
+| `swap.failed` | A swap failed. The invoice stays `pending`. |
+| `swap.incomplete_deposit` | The buyer deposited less than the quoted amount. The invoice stays `pending`. |
+| `withdrawal.updated` | The status of a withdrawal changed. |
+| `plan.updated` | The plan of your account changed. |
+| `test` | You sent a test delivery from the dashboard. |
+
+## Payload
+
+```json title="invoice.paid"
 {
-  "url": "https://shop.example.com/hooks/lunaz",
-  "secret": "9c1e4f7a2b8d3c6e5f0a1b2c3d4e5f60"
+  "type": "invoice.paid",
+  "invoice_id": "8f14e45f-ceea-4672-9b2d-5c1d0a7e3b11",
+  "status": "paid",
+  "amount_zat": 5000000,
+  "received_zat": 5000000,
+  "overpaid_zat": 0,
+  "txid": "3b1c0f9e2a7d4c58b6e1a0f3d9c27b845e6a1f0d2c3b4a59687766554433221f",
+  "swap": null
 }
 ```
 
-## Set the URL
+`swap` is `null` when the buyer paid with ZEC. Otherwise it has the `asset`, `blockchain`, `amount_in_formatted` and `status` of the swap. For a `test` event, `invoice_id` is `null`.
 
-`PUT /v1/account/webhook`
-
-| Field | Type | Notes |
-| --- | --- | --- |
-| `url` | string or null | Must start with `http://` or `https://`. Use `null` to remove the webhook. |
-
-Response: 204. Error: 400 `url must start with http:// or https://`.
-
-## Rotate the secret
-
-`POST /v1/account/webhook/rotate`
-
-```json title="Response 200"
-{ "secret": "e4b7a1c9d2f60835a1b2c3d4e5f60718" }
+```json title="withdrawal.updated"
+{
+  "type": "withdrawal.updated",
+  "invoice_id": null,
+  "withdrawal_id": "c2d9a1e4-7b36-4f0a-9e52-0d8b1a6c3f77",
+  "status": "payout_processing",
+  "amount_zat": 100000000,
+  "fiat_currency": "IDR",
+  "fiat_amount": "1572000.00"
+}
 ```
 
-## Send a test
-
-`POST /v1/account/webhook/test`
-
-Lunaz sends one `test` event with a single attempt and no retry.
-
-```json title="Response 200 (delivered)"
-{ "status": 200 }
+```json title="plan.updated"
+{
+  "type": "plan.updated",
+  "invoice_id": null,
+  "plan": "pro",
+  "expires_at": 1794592000
+}
 ```
 
-```json title="Response 200 (failed)"
-{ "error": "error sending request" }
-```
+## Verify the signature
 
-`status` is the HTTP status code of your endpoint. Error: 400 `webhook url not set`.
+Compute the HMAC-SHA256 of the raw request body with your secret. Compare it with `X-Lunaz-Signature` in constant time. Reject the request if the values differ. The [Webhooks guide](../../guides/webhooks/#verify-the-signature) has code for Node.js, Python and Go.
 
-## Delivery log
+## Respond and retry
 
-`GET /v1/account/webhook/deliveries?limit=50`
+Return a 2xx status within 5 seconds. Lunaz treats any other status, and any network error, as a failure.
 
-`limit` is from 1 to 200. The default is 50. The newest rows come first. There is one row for each attempt.
-
-```json title="Response 200"
-[
-  {
-    "id": 311,
-    "invoice_id": "8f14e45f-ceea-4672-9b2d-5c1d0a7e3b11",
-    "type": "invoice.paid",
-    "url": "https://shop.example.com/hooks/lunaz",
-    "status_code": 200,
-    "error": null,
-    "attempt": 1,
-    "created_at": 1792000215
-  }
-]
-```
-
-`invoice_id` is `null` for events that are not about an invoice. `status_code` is `null` after a network error.
+A failed delivery is retried after 10 s, 60 s and 300 s. This makes 4 attempts in total. Your endpoint can receive the same event more than once. Use the `invoice_id` to ignore a repeat.

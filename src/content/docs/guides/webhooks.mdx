@@ -23,7 +23,7 @@ Lunaz sends a signed POST request to your endpoint when an invoice, swap, withdr
 
 </Steps>
 
-You can also use the API. See [Webhooks API](../../api/webhooks/). To change the secret, rotate it. The old secret stops working at once.
+To change the secret, rotate it on the same page. The old secret stops working at once. See [Webhooks API](../../api/webhooks/) for the request format.
 
 ## Event types
 
@@ -152,12 +152,12 @@ Return a 2xx status within 5 seconds. Lunaz treats any other status, and any net
 
 A failed delivery is retried after 10 s, 60 s and 300 s. This makes 4 attempts in total. After the last attempt Lunaz stops.
 
-Retries are kept in memory. A restart of the service clears pending retries. Use the delivery log, or read the invoice with the API, to find a missed event.
+Use the delivery log, or read the invoice with the API, to find a missed event.
 
 Your endpoint can receive the same event more than once. Use the `invoice_id` to ignore a repeat.
 
 ## Delivery log
 
-Lunaz logs every attempt. The dashboard shows the log on the webhooks page. The API returns it from `GET /v1/account/webhook/deliveries`.
+Lunaz logs every attempt. The dashboard shows the log on the webhooks page.
 
 Each row has the invoice ID, the event type, the URL, the HTTP status code, an error text, the attempt number and the time.

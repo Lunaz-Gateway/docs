@@ -7,7 +7,7 @@ description: Invoice statuses, confirmations, over and underpayment, expiry and 
 
 All amounts are integers in zatoshi (zat). 1 ZEC is 100000000 zat. An invoice amount must be from 1 to 2100000000000000 zat.
 
-The CSV export is the exception. It shows ZEC amounts as exact decimal strings with 8 digits.
+The accountant CSV export is the exception. It shows ZEC amounts as exact decimal strings with 8 digits.
 
 ## Invoice lifecycle
 
@@ -48,12 +48,11 @@ An invoice that is `detected` from the mempool only, and has been expired for mo
 
 If a cross-chain swap is active and the invoice expires within 10 minutes, Lunaz extends the expiry to 30 minutes from the swap request. This gives the swap time to finish.
 
-## Public and private endpoints
+## API access
 
 | Access | Endpoints |
 | --- | --- |
 | API key | Create an invoice. |
 | Public, by invoice ID | Read an invoice, WebSocket status, swap assets, start a swap. |
-| Session token | Everything else: account, API keys, webhooks, export, withdrawals, billing. |
 
-See [Authentication](../../api/authentication/).
+Everything else, such as your account, webhooks, export and withdrawals, is in the dashboard. See [Authentication](../../api/authentication/).

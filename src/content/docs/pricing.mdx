@@ -22,7 +22,7 @@ The prices and limits are a first version. Feedback is welcome.
 
 ## What counts as an invoice
 
-Each call to `POST /v1/invoices` that succeeds counts as one invoice in the current month. The month starts at 00:00 UTC on the first day. Invoices that pay for a Lunaz plan do not count.
+Each invoice that you create counts as one invoice in the current month. The month starts at 00:00 UTC on the first day. Invoices that pay for a Lunaz plan do not count.
 
 An API key counts while it is active. A revoked key does not count.
 
@@ -32,7 +32,7 @@ The API returns 402 with the `limit`, the `used` count and your `plan`. Existing
 
 ## Pay for a plan
 
-You pay in ZEC through a Lunaz invoice. The dashboard creates a normal invoice for the Lunaz treasury wallet. When the invoice is paid, the plan is active for the paid period.
+You pay in ZEC through a Lunaz invoice. Open the Billing page in the dashboard, choose a plan and a period, and pay the invoice with your Zcash wallet. When the invoice is paid, the plan is active for the paid period.
 
 - You can buy 1, 3 or 12 months.
 - The amount is the USD price converted at the ZEC price when you start the checkout.
