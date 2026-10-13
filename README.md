@@ -18,7 +18,7 @@ npm run dev -- --port 4321
 
 Run `npm run build` before you commit. The build fails on broken internal links.
 
-Write internal links as relative links (for example `../webhooks/`), not `/guides/webhooks/`. Relative links keep working when the docs are served under a path prefix.
+Write internal links as relative links (for example `../webhooks/`), not `/guides/webhooks/`. After `astro build`, `scripts/absolute-links.mjs` turns every relative link in the HTML into an absolute path with the base (for example `/docs/guides/webhooks/`), so links work even when a page is opened without a trailing slash.
 
 ## Environment
 
