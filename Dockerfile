@@ -12,10 +12,14 @@ ENV DOCS_SITE_URL=$DOCS_SITE_URL DOCS_BASE_PATH=$DOCS_BASE_PATH
 RUN npm run build \
     && base="${DOCS_BASE_PATH%/}" \
     && mkdir -p "/site$base" && cp -r dist/. "/site$base/" \
-    && sed "s#__BASE__#$base#" nginx.conf > /site.conf
+    && sed "s#__BASE__#$base#g" nginx.conf > /site.conf \
+    && if [ -n "$base" ]; then sed -i "s/#BASEONLY //" /site.conf; fi
 
 FROM nginxinc/nginx-unprivileged:1.28-alpine
 LABEL org.opencontainers.image.title="lunaz-docs"
+USER root
+# Drop the stock welcome page so only the docs are served
+RUN rm -rf /usr/share/nginx/html/*
 COPY --from=build /site.conf /etc/nginx/conf.d/default.conf
 COPY --from=build /site /usr/share/nginx/html
 USER 101
