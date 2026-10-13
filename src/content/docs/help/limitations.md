@@ -30,5 +30,5 @@ This list describes the current version.
 
 ## Webhooks
 
-- A failed delivery is retried 3 times, then Lunaz stops.
+- An event is tried 3 times. After that it stays failed until you retry it from the dashboard.
 - Use the delivery log to find failed deliveries.

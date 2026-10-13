@@ -1,6 +1,6 @@
 ---
 title: Webhooks
-description: Event types, payloads, signature verification, retries and the delivery log.
+description: Event types, payloads, signature verification, retries and failed events.
 ---
 
 import { Tabs, TabItem, Steps } from '@astrojs/starlight/components';
@@ -150,14 +150,19 @@ func verify(rawBody []byte, signature, secret string) bool {
 
 Return a 2xx status within 5 seconds. Lunaz treats any other status, and any network error, as a failure.
 
-A failed delivery is retried after 10 s, 60 s and 300 s. This makes 4 attempts in total. After the last attempt Lunaz stops.
+Lunaz tries each event up to 3 times: at once, after 10 s and after 60 s. If all 3 attempts fail, the event status changes to `failed`. Pending retries continue after a restart of Lunaz.
 
-Use the delivery log, or read the invoice with the API, to find a missed event.
+To send a failed event again:
+
+1. Fix your endpoint.
+2. Open the webhooks page in the dashboard.
+3. Select the Failed tab.
+4. Click Retry on the event, or click Retry all failed.
+
+The event gets 3 new attempts. You can also read the invoice with the API to find a missed status change.
 
 Your endpoint can receive the same event more than once. Use the `invoice_id` to ignore a repeat.
 
-## Delivery log
+## Events in the dashboard
 
-Lunaz logs every attempt. The dashboard shows the log on the webhooks page.
-
-Each row has the invoice ID, the event type, the URL, the HTTP status code, an error text, the attempt number and the time.
+The webhooks page shows every event with its status: `pending`, `delivered` or `failed`. Each event shows the number of attempts, the last HTTP status code or error, and the time of each attempt.

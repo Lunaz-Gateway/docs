@@ -41,4 +41,4 @@ There is a free tier. See [Pricing](../../pricing/).
 
 ## What happens if my webhook endpoint is down?
 
-Lunaz retries after 10 s, 60 s and 300 s. Every attempt appears in the delivery log. See [Webhooks](../../guides/webhooks/).
+Lunaz tries each event 3 times: at once, after 10 s and after 60 s. If all attempts fail, the event is marked failed. Fix your endpoint, then click Retry on the webhooks page in the dashboard. See [Webhooks](../../guides/webhooks/).

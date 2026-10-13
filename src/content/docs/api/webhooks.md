@@ -73,4 +73,4 @@ Compute the HMAC-SHA256 of the raw request body with your secret. Compare it wit
 
 Return a 2xx status within 5 seconds. Lunaz treats any other status, and any network error, as a failure.
 
-A failed delivery is retried after 10 s, 60 s and 300 s. This makes 4 attempts in total. Your endpoint can receive the same event more than once. Use the `invoice_id` to ignore a repeat.
+Lunaz tries each event up to 3 times: at once, after 10 s and after 60 s. After 3 failed attempts the event is marked failed, and you can send it again from the dashboard. Your endpoint can receive the same event more than once. Use the `invoice_id` to ignore a repeat.
