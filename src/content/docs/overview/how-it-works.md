@@ -22,11 +22,11 @@ Lunaz sits between your system and the Zcash network. It creates invoices, watch
 
 ## One address per invoice
 
-Lunaz derives each invoice address from your Unified Full Viewing Key (UFVK). The address is a diversified Orchard address. The diversifier index starts at 2^80, so an invoice address never collides with an address that you use elsewhere.
+Lunaz derives each invoice address from your incoming viewing key (UIVK). The address is a diversified Orchard address. The diversifier index starts at 2^80, so an invoice address never collides with an address that you use elsewhere.
 
 Each invoice has its own address. Nothing on chain links two invoices to each other or to you.
 
-You set the UFVK once per account. One UFVK cannot belong to two accounts.
+You set the viewing key once per account. If you paste a Unified Full Viewing Key (UFVK), Lunaz keeps only its incoming part. One viewing key cannot belong to two accounts.
 
 ## Detection by trial decryption
 

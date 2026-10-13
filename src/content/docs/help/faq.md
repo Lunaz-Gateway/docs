@@ -27,9 +27,9 @@ Orchard and Ironwood, in both the mempool and mined blocks. A payment shows as `
 
 No. Lunaz is a managed service. We run the gateway, the chain watcher and the cross-chain swaps. You sign in with your email, connect the viewing key of your wallet and call the API.
 
-## Where do I find my viewing key?
+## Where do I find my incoming viewing key?
 
-In ZODL, open the account settings and export the viewing key. With zcash-devtool, run `wallet list-accounts`. See the [Quickstart](../../get-started/quickstart/).
+With zcash-devtool, run `wallet list-accounts`. The command prints the incoming viewing key (UIVK) on the `UIVK:` line. A full viewing key (UFVK) also works. See the [Quickstart](../../get-started/quickstart/).
 
 ## Can I change my viewing key?
 

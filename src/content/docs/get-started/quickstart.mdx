@@ -1,11 +1,11 @@
 ---
 title: Quickstart
-description: Create an account, connect your viewing key and receive your first payment.
+description: Create an account, connect an incoming viewing key and receive your first payment.
 ---
 
 import { Steps, Aside, Tabs, TabItem } from '@astrojs/starlight/components';
 
-This procedure takes you from a new account to a paid invoice. You need a Zcash wallet that can export a Unified Full Viewing Key (UFVK).
+This procedure takes you from a new account to a paid invoice. You need a Zcash wallet that can export an incoming viewing key (UIVK) or a Unified Full Viewing Key (UFVK).
 
 ## Create your account and connect your wallet
 
@@ -21,17 +21,17 @@ This procedure takes you from a new account to a paid invoice. You need a Zcash 
 
    You can set an account name later in Settings.
 
-4. Export the UFVK from your wallet.
+4. Get the incoming viewing key from your wallet.
 
-   In ZODL, open the account settings and export the viewing key. With zcash-devtool, run `wallet list-accounts`. The command prints the UFVK of each account. On mainnet the UFVK starts with `uview1`.
+   With zcash-devtool, run `wallet list-accounts`. The command prints the UIVK on the `UIVK:` line. On mainnet the UIVK starts with `uivk1`. If your wallet exports only a UFVK (`uview1`), use the UFVK. Lunaz keeps only its incoming part.
 
-5. Make sure that the UFVK is correct.
+5. Make sure that the key is correct.
 
    :::caution
-   MAKE SURE THAT THE UFVK IS CORRECT BEFORE YOU SAVE IT. YOU CANNOT CHANGE IT AFTER YOU SET IT.
+   MAKE SURE THAT THE KEY IS CORRECT BEFORE YOU SAVE IT. YOU CANNOT CHANGE IT AFTER YOU SET IT.
    :::
 
-6. Paste the UFVK in the dashboard onboarding and save it.
+6. Paste the key in the dashboard onboarding and save it.
 
 7. Open the API keys page and create an API key.
 

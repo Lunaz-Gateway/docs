@@ -7,7 +7,7 @@ Lunaz is a payment gateway for shielded Zcash. A buyer pays with ZEC, or with US
 
 We operate Lunaz as a managed service. You use the hosted dashboard and the API. You do not run any server.
 
-Our servers hold viewing keys only. A viewing key lets Lunaz see incoming payments, but it cannot spend anything. The spending keys stay in your wallet.
+Our servers hold viewing keys only. An incoming viewing key lets Lunaz see incoming payments, but it cannot spend anything. The spending keys stay in your wallet.
 
 ## The problem
 

@@ -39,7 +39,7 @@ Errors:
 | Status | Message | Cause |
 | --- | --- | --- |
 | 400 | `invalid amount_zat` | The amount is 0 or too large. |
-| 400 | `viewing key not set` | The account has no UFVK. |
+| 400 | `viewing key not set` | The account has no viewing key. |
 | 401 | `missing api key` or `bad api key` | No key, or an unknown or revoked key. |
 | 402 | `monthly invoice limit reached for the Free plan` | The plan limit is reached. The body has `limit`, `used` and `plan`. |
 

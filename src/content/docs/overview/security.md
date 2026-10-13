@@ -5,7 +5,7 @@ description: What the Lunaz server can and cannot do, and which parts of a payme
 
 import { Aside } from '@astrojs/starlight/components';
 
-Lunaz is non-custodial. The server holds viewing keys, never spending keys.
+Lunaz is non-custodial. The server holds incoming viewing keys, never spending keys.
 
 ## What the server can do
 
@@ -15,7 +15,9 @@ Lunaz is non-custodial. The server holds viewing keys, never spending keys.
 ## What the server cannot do
 
 - Spend funds. It holds no spending key.
-- See outgoing payments or the balance of your wallet.
+- See outgoing payments, spends or the balance of your wallet.
+
+If you paste a full viewing key (UFVK), Lunaz reduces it to the incoming key when it saves it. The server does not keep the part that sees outgoing payments.
 
 ## Who sees your data
 

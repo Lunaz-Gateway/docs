@@ -15,7 +15,7 @@ This list describes the current version.
 ## Accounts
 
 - You cannot change the viewing key after you set it.
-- In-browser wallet generation is not available yet. Bring your own wallet and viewing key.
+- In-browser wallet generation is not available yet. Bring your own wallet and incoming viewing key.
 
 ## Billing
 
