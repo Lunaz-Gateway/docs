@@ -25,7 +25,13 @@ Write internal links as relative links (for example `../webhooks/`), not `/guide
 | Variable | When | Purpose |
 | --- | --- | --- |
 | `DOCS_SITE_URL` | build time, optional | Origin of the docs, for example `https://example.com`. Used for the sitemap and canonical links. Do not put the path here. |
+| `DOCS_API_URL` | build time, optional | Lunaz API base URL shown in examples (default `https://api.example.com`). |
+| `DOCS_DASHBOARD_URL` | build time, optional | Dashboard URL (default `https://lunaz.example.com/dashboard`). |
+| `DOCS_LANDING_URL` | build time, optional | Lunaz website URL (default `https://lunaz.example.com`). |
+| `DOCS_DEMO_URL` | build time, optional | Sunday Market demo URL (default `https://demo.example.com`). |
 | `DOCS_BASE_PATH` | build time, optional | Path prefix when the docs are served below the domain root, for example `/docs`. All pages, assets and links use it. |
+
+The four `DOCS_*_URL` values replace the placeholder links in the page content. `scripts/apply-urls.mjs` does this in place, and only in the Docker build (never run it in your working copy). The sidebar links read the variables directly.
 
 ## Docker
 

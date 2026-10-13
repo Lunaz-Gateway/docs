@@ -5,7 +5,7 @@ description: What Lunaz is, who it is for and where the name comes from.
 
 Lunaz is a payment gateway for shielded Zcash. A buyer pays with ZEC, or with USDC, USDT, SOL, ETH or BTC. The funds arrive as shielded ZEC in the merchant's own wallet.
 
-We operate Lunaz as a managed service. You use the hosted dashboard and the API. You do not run any server.
+We operate Lunaz as a managed service. You use the hosted [dashboard](https://lunaz.example.com/dashboard) and the API. More about the product is on the [Lunaz website](https://lunaz.example.com). You do not run any server.
 
 Our servers hold viewing keys only. An incoming viewing key lets Lunaz see incoming payments, but it cannot spend anything. The spending keys stay in your wallet.
 

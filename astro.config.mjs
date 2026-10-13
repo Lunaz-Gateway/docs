@@ -4,6 +4,10 @@ import starlight from '@astrojs/starlight';
 
 // Path prefix when the docs are served below the domain root, e.g. "/docs"
 const base = (process.env.DOCS_BASE_PATH || '').replace(/\/$/, '');
+const url = (key, fallback) => (process.env[key] || fallback).replace(/\/+$/, '');
+const dashboard = url('DOCS_DASHBOARD_URL', 'https://lunaz.example.com/dashboard');
+const landing = url('DOCS_LANDING_URL', 'https://lunaz.example.com');
+const demo = url('DOCS_DEMO_URL', 'https://demo.example.com');
 
 export default defineConfig({
 	// Public URL, needed for the sitemap and canonical links (set at build time)
@@ -75,6 +79,14 @@ export default defineConfig({
 					],
 				},
 				{ label: 'Pricing', slug: 'pricing' },
+				{
+					label: 'Lunaz',
+					items: [
+						{ label: 'Dashboard', link: dashboard },
+						{ label: 'Website', link: landing },
+						{ label: 'Sunday Market demo', link: demo },
+					],
+				},
 				{
 					label: 'Help',
 					items: [

@@ -3,7 +3,7 @@ title: Authentication
 description: Session tokens, API keys and the Bearer header.
 ---
 
-The API uses JSON. Send `Content-Type: application/json` with request bodies. The examples use `https://api.example.com` as the base URL. Use the base URL that Lunaz gave you.
+The API uses JSON. Send `Content-Type: application/json` with request bodies. The examples use `https://api.example.com` as the base URL.
 
 ## Two kinds of credential
 

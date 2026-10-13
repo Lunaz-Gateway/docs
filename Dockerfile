@@ -8,8 +8,15 @@ COPY . .
 ARG DOCS_SITE_URL=
 # Path prefix when served below the domain root, e.g. /docs (keep it in the proxied path: no Strip Path)
 ARG DOCS_BASE_PATH=
-ENV DOCS_SITE_URL=$DOCS_SITE_URL DOCS_BASE_PATH=$DOCS_BASE_PATH
-RUN npm run build \
+# Public Lunaz URLs that replace the placeholder links in the docs content
+ARG DOCS_API_URL=
+ARG DOCS_DASHBOARD_URL=
+ARG DOCS_LANDING_URL=
+ARG DOCS_DEMO_URL=
+ENV DOCS_SITE_URL=$DOCS_SITE_URL DOCS_BASE_PATH=$DOCS_BASE_PATH \
+    DOCS_API_URL=$DOCS_API_URL DOCS_DASHBOARD_URL=$DOCS_DASHBOARD_URL \
+    DOCS_LANDING_URL=$DOCS_LANDING_URL DOCS_DEMO_URL=$DOCS_DEMO_URL
+RUN node scripts/apply-urls.mjs && npm run build \
     && base="${DOCS_BASE_PATH%/}" \
     && mkdir -p "/site$base" && cp -r dist/. "/site$base/" \
     && sed "s#__BASE__#$base#g" nginx.conf > /site.conf \
