@@ -1,6 +1,6 @@
 ---
 title: Account
-description: Read your account and set the viewing key.
+description: Read your account, set the name and set the viewing key.
 ---
 
 All endpoints on this page need a session token.
