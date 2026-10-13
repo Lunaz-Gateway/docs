@@ -1,0 +1,33 @@
+/* Lunaz palette: Malam #1C1F3D, Kertas #F6F2E9, Lunas #C8F169 (dark mode only) */
+:root {
+	--sl-font: 'Plus Jakarta Sans', system-ui, sans-serif;
+	--sl-color-accent-low: #e4e0f0;
+	--sl-color-accent: #1c1f3d;
+	--sl-color-accent-high: #1c1f3d;
+	--sl-color-white: #1c1f3d;
+	--sl-color-bg: #f6f2e9;
+	--sl-color-bg-nav: #f6f2e9;
+	--sl-color-bg-sidebar: #f6f2e9;
+	--sl-color-hairline: #d9d4c6;
+	--sl-color-text-accent: #1c1f3d;
+}
+
+:root[data-theme='dark'] {
+	--sl-color-accent-low: #2c3320;
+	--sl-color-accent: #c8f169;
+	--sl-color-accent-high: #c8f169;
+	--sl-color-white: #f6f2e9;
+	--sl-color-bg: #1c1f3d;
+	--sl-color-bg-nav: #1c1f3d;
+	--sl-color-bg-sidebar: #181a35;
+	--sl-color-hairline: #2f335a;
+	--sl-color-text-accent: #c8f169;
+}
+
+/* Dark text on a Lunas button */
+:root[data-theme='dark'] .sl-link-button.primary {
+	color: #1c1f3d;
+}
+:root[data-theme='light'] .sl-link-button.primary {
+	color: #f6f2e9;
+}
