@@ -1,6 +1,7 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
+import mermaid from 'astro-mermaid';
 
 // Path prefix when the docs are served below the domain root, e.g. "/docs"
 const base = (process.env.DOCS_BASE_PATH || '').replace(/\/$/, '');
@@ -14,6 +15,8 @@ export default defineConfig({
 	site: process.env.DOCS_SITE_URL || undefined,
 	base: base || undefined,
 	integrations: [
+		// Must come before Starlight
+		mermaid({ theme: 'neutral', autoTheme: true, enableLog: false }),
 		starlight({
 			title: 'Lunaz Docs',
 			description:

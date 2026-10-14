@@ -23,6 +23,18 @@ An invoice has one of five statuses.
 
 The normal path is `pending`, then `detected`, then `paid`.
 
+```mermaid
+stateDiagram-v2
+    [*] --> pending
+    pending --> detected: payment seen
+    pending --> expired: time runs out
+    detected --> paid: mined amount covers the invoice
+    detected --> underpaid: expires with too little mined
+    detected --> expired: mempool only, 1 hour after expiry
+    underpaid --> paid: top-up
+    expired --> paid: late payment
+```
+
 A final status can still change. A late top-up that brings the total to the amount turns `underpaid` or `expired` into `paid`.
 
 ## Confirmation

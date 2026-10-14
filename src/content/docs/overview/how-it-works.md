@@ -7,17 +7,16 @@ Lunaz sits between your system and the Zcash network. It creates invoices, watch
 
 ## Architecture
 
-```text
- Buyer with ZEC ---------------------------> Zcash network ----> Merchant wallet
-                                                  ^   |          (spending keys)
- Buyer with another asset --> NEAR Intents -------+   |
-                              (swap to shielded ZEC)  v
-                                              lightwalletd
-                                                  |
-                                                  v
- Your system <---- signed webhooks ---- Lunaz (API, WebSocket, watcher)
-      |                                           ^
-      +---------- invoice requests (API key) -----+
+```mermaid
+flowchart LR
+    BZ[Buyer with ZEC] -->|shielded ZEC| ZN[Zcash network]
+    BO[Buyer with another asset] -->|deposit| NI[NEAR Intents]
+    NI -->|swap to shielded ZEC| ZN
+    ZN --> MW["Merchant wallet<br/>(spending keys)"]
+    ZN --> LWD[lightwalletd]
+    LWD -->|blocks and mempool| L["Lunaz<br/>API, WebSocket, watcher"]
+    YS[Your system] -->|invoice requests, API key| L
+    L -->|signed webhooks| YS
 ```
 
 ## One address per invoice
@@ -48,6 +47,22 @@ Lunaz polls the swap status every 10 seconds. See [Accept other crypto](../../gu
 - Your wallet holds the spending keys. No Lunaz service has them.
 
 ## Payment flow
+
+```mermaid
+sequenceDiagram
+    participant S as Your system
+    participant L as Lunaz
+    participant B as Buyer wallet
+    participant Z as Zcash network
+    S->>L: POST /v1/invoices
+    L-->>S: address and zip321_uri
+    S->>B: QR code or link
+    B->>Z: shielded payment (merchant amount and fee)
+    Z-->>L: transaction in the mempool
+    L-->>S: status detected (WebSocket)
+    Z-->>L: transaction mined
+    L->>S: invoice.paid webhook
+```
 
 1. Your system creates an invoice with the API.
 2. Lunaz returns a fresh shielded address and a ZIP-321 URI.
