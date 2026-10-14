@@ -5,7 +5,7 @@ description: Changes to Lunaz and to this documentation.
 
 ## 2026-10-14
 
-Pricing: monthly plans are replaced by a 0.5% fee inside each shielded payment and a 0.25% app fee on cross-chain swaps. See [Pricing](../../pricing/).
+Pricing: monthly plans are replaced by a 0.5% fee inside each shielded payment and a 0.75% app fee on cross-chain swaps (the 0.5% fee plus 0.25%). See [Pricing](../../pricing/).
 
 Webhook signatures now include a timestamp, and every event has an id. Update your verification code. See [Webhooks](../../guides/webhooks/#verify-the-signature).
 

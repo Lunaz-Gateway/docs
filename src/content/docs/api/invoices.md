@@ -26,7 +26,8 @@ curl -X POST https://api.example.com/v1/invoices \
   "id": "8f14e45f-ceea-4672-9b2d-5c1d0a7e3b11",
   "address": "u1q8x4example7shieldedaddress",
   "amount_zat": 5000000,
-  "zip321_uri": "zcash:u1q8x4example7shieldedaddress?amount=0.05&memo=bHVuYXo6OGYxNGU0NWY",
+  "fee_zat": 25000,
+  "zip321_uri": "zcash:?address=u1q8x4example7shieldedaddress&amount=0.05&memo=bHVuYXo6OGYxNGU0NWY&address.1=u1lunazexample7feeaddress&amount.1=0.00025&memo.1=bHVuYXotZmVlOjhmMTRlNDVm",
   "status": "pending",
   "expires_at": 1792000900
 }
@@ -34,7 +35,7 @@ curl -X POST https://api.example.com/v1/invoices \
 
 `expires_at` is a Unix time in seconds.
 
-The `zip321_uri` carries two payments in one shielded transaction: the invoice amount to the merchant, and the Lunaz fee to a Lunaz address. Show it to the buyer as it is. Do not build your own request from `address` and `amount_zat`, because that drops the fee. See [Pricing](../../pricing/).
+The `zip321_uri` carries two payments in one shielded transaction: the invoice amount to the merchant, and the Lunaz fee to a Lunaz address. Show it to the buyer as it is. Do not build your own request from `address` and `amount_zat`, because that drops the fee. `fee_zat` is the Lunaz fee in zatoshis. It is 0 when no fee applies. See [Pricing](../../pricing/).
 
 Errors:
 
@@ -55,8 +56,9 @@ Auth: none. The invoice ID is the access token.
   "id": "8f14e45f-ceea-4672-9b2d-5c1d0a7e3b11",
   "status": "detected",
   "amount_zat": 5000000,
+  "fee_zat": 25000,
   "address": "u1q8x4example7shieldedaddress",
-  "zip321_uri": "zcash:u1q8x4example7shieldedaddress?amount=0.05&memo=bHVuYXo6OGYxNGU0NWY",
+  "zip321_uri": "zcash:?address=u1q8x4example7shieldedaddress&amount=0.05&memo=bHVuYXo6OGYxNGU0NWY&address.1=u1lunazexample7feeaddress&amount.1=0.00025&memo.1=bHVuYXotZmVlOjhmMTRlNDVm",
   "expires_at": 1792000900,
   "txid": "3b1c0f9e2a7d4c58b6e1a0f3d9c27b845e6a1f0d2c3b4a59687766554433221f",
   "received_zat": 5000000,

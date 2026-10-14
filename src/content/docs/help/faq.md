@@ -37,7 +37,7 @@ No. You can set it one time. Check it before you save it.
 
 ## What does it cost?
 
-You pay only when you get paid. There are no monthly plans. The buyer pays a 0.5% Lunaz fee on top of the price of a shielded payment, and a 0.25% app fee on a cross-chain swap. Lunaz takes nothing from the amount that you receive. See [Pricing](../../pricing/).
+You pay only when you get paid. There are no monthly plans. The buyer pays a 0.5% Lunaz fee on top of the price of a shielded payment, and 0.75% in total on a cross-chain swap. Lunaz takes nothing from the amount that you receive. See [Pricing](../../pricing/).
 
 ## What happens if my webhook endpoint is down?
 

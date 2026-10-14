@@ -10,7 +10,7 @@ Lunaz is a managed service. You pay only when you get paid. There are no monthly
 | Payment | Lunaz fee | Who pays |
 | --- | --- | --- |
 | Shielded ZEC | 0.5% (minimum 1,000 zatoshis, 0.00001 ZEC) | The buyer, on top of the price |
-| Cross-chain (NEAR Intents) | 0.25% app fee on the swap | The buyer, inside the deposit amount |
+| Cross-chain (NEAR Intents) | 0.75% app fee on the swap (the 0.5% Lunaz fee plus 0.25%) | The buyer, inside the deposit amount |
 
 Lunaz takes no fee from the amount that you receive.
 
@@ -31,7 +31,7 @@ If a buyer's wallet pays only the merchant part, the invoice is still marked `pa
 
 ## Cross-chain payments
 
-A buyer who pays with another asset pays a 0.25% app fee on the swap. The fee is part of the deposit amount. The merchant still receives the full invoice amount. See [Accept other crypto](../guides/accept-other-crypto/).
+A swap delivers only the invoice amount, so the Lunaz fee cannot be a second payment. The buyer pays it in the app fee of the swap instead: 0.5% plus 0.25% for the swap, 0.75% in total. The fee is part of the deposit amount, and you have no outstanding fee for that invoice. The merchant still receives the full invoice amount. See [Accept other crypto](../guides/accept-other-crypto/).
 
 ## Enterprise
 
