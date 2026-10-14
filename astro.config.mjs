@@ -89,7 +89,6 @@ export default defineConfig({
 					label: 'Help',
 					items: [
 						{ label: 'FAQ', slug: 'help/faq' },
-						{ label: 'Limitations', slug: 'help/limitations' },
 						{ label: 'Changelog', slug: 'help/changelog' },
 					],
 				},

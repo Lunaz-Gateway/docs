@@ -41,8 +41,6 @@ A final status can still change. A late top-up that brings the total to the amou
 
 An invoice is `paid` after one confirmation. A confirmation takes about 75 seconds. A payment that Lunaz sees in the mempool is `detected` in seconds.
 
-Lunaz does not handle chain reorgs. See [Limitations](../../help/limitations/).
-
 ## Overpayment and underpayment
 
 Payments to one address add up. A buyer can pay the difference before the invoice expires.
