@@ -34,6 +34,8 @@ curl -X POST https://api.example.com/v1/invoices \
 
 `expires_at` is a Unix time in seconds.
 
+The `zip321_uri` carries two payments in one shielded transaction: the invoice amount to the merchant, and the Lunaz fee to a Lunaz address. Show it to the buyer as it is. Do not build your own request from `address` and `amount_zat`, because that drops the fee. See [Pricing](../../pricing/).
+
 Errors:
 
 | Status | Message | Cause |
@@ -41,7 +43,6 @@ Errors:
 | 400 | `invalid amount_zat` | The amount is 0 or too large. |
 | 400 | `viewing key not set` | The account has no viewing key. |
 | 401 | `missing api key` or `bad api key` | No key, or an unknown or revoked key. |
-| 402 | `monthly invoice limit reached for the Free plan` | The plan limit is reached. The body has `limit`, `used` and `plan`. |
 
 ## Read an invoice
 

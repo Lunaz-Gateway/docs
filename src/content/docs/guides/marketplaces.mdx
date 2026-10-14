@@ -14,7 +14,7 @@ A marketplace sells for many shops. Each shop wants its payments in its own wall
 - An order from a shop creates an invoice with the key of that shop. The payment goes privately to that seller's wallet.
 - The marketplace never sees a spending key.
 
-The Platform plan has 50 API keys and no limit on invoices. See [Pricing](../../pricing/).
+There is no limit on invoices or API keys. Lunaz takes a fee on each payment. See [Pricing](../../pricing/).
 
 ## Set up a new seller
 
@@ -79,4 +79,4 @@ async function createInvoice(shopSlug, amountZat) {
 
 ## Operating notes
 
-Anyone can place an order, and an order creates an invoice with the key of that shop. Each invoice counts toward the plan limit of that seller account. Rate-limit order requests at your proxy.
+Anyone can place an order, and an order creates an invoice with the key of that shop. Rate-limit order requests at your proxy.

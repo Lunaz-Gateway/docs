@@ -19,8 +19,7 @@ This list describes the current version.
 
 ## Billing
 
-- Plan renewals are manual. There is no recurring payment in ZEC.
-- Prices and limits are a first version.
+- Some wallets may not support payment requests with two recipients yet. If a wallet pays only the merchant part, the invoice is still paid, and Lunaz bills the missing fee to the merchant later.
 
 ## Withdraw to bank
 

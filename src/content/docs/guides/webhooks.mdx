@@ -5,7 +5,7 @@ description: Event types, payloads, signature verification, retries and failed e
 
 import { Tabs, TabItem, Steps } from '@astrojs/starlight/components';
 
-Lunaz sends a signed POST request to your endpoint when an invoice, swap, withdrawal or plan changes. Each account has one webhook URL and one signing secret.
+Lunaz sends a signed POST request to your endpoint when an invoice, swap, or withdrawal changes. Each account has one webhook URL and one signing secret.
 
 ## Set up the endpoint
 
@@ -35,7 +35,6 @@ To change the secret, rotate it on the same page. The old secret stops working a
 | `swap.failed` | A swap failed. The invoice stays `pending`. |
 | `swap.incomplete_deposit` | The buyer deposited less than the quoted amount. The invoice stays `pending`. |
 | `withdrawal.updated` | The status of a withdrawal changed. |
-| `plan.updated` | The plan of your account changed. |
 | `test` | You sent a test delivery. |
 
 ## Payload
@@ -76,17 +75,6 @@ Every event has an `id` (the event id, the same as the `X-Lunaz-Event-Id` header
   "amount_zat": 100000000,
   "fiat_currency": "IDR",
   "fiat_amount": "1572000.00"
-}
-```
-
-```json title="plan.updated"
-{
-  "id": "e41a6d93-2c7b-4f18-b5d0-8a3e6f92c174",
-  "created_at": 1791914886,
-  "type": "plan.updated",
-  "invoice_id": null,
-  "plan": "pro",
-  "expires_at": 1794592000
 }
 ```
 

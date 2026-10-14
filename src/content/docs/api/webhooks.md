@@ -3,7 +3,7 @@ title: Webhooks
 description: Receive and verify webhook events from Lunaz.
 ---
 
-Lunaz sends a signed POST request to your endpoint when an invoice, swap, withdrawal or plan changes. You set the endpoint URL and read the signing secret on the webhooks page of the dashboard. See the [Webhooks guide](../../guides/webhooks/) for the setup steps.
+Lunaz sends a signed POST request to your endpoint when an invoice, swap, or withdrawal changes. You set the endpoint URL and read the signing secret on the webhooks page of the dashboard. See the [Webhooks guide](../../guides/webhooks/) for the setup steps.
 
 ## Request
 
@@ -25,7 +25,6 @@ Each request has these headers.
 | `swap.failed` | A swap failed. The invoice stays `pending`. |
 | `swap.incomplete_deposit` | The buyer deposited less than the quoted amount. The invoice stays `pending`. |
 | `withdrawal.updated` | The status of a withdrawal changed. |
-| `plan.updated` | The plan of your account changed. |
 | `test` | You sent a test delivery from the dashboard. |
 
 ## Payload
@@ -61,17 +60,6 @@ Every event has `id` (the event id) and `created_at` (Unix seconds when the even
   "amount_zat": 100000000,
   "fiat_currency": "IDR",
   "fiat_amount": "1572000.00"
-}
-```
-
-```json title="plan.updated"
-{
-  "id": "e41a6d93-2c7b-4f18-b5d0-8a3e6f92c174",
-  "created_at": 1791914886,
-  "type": "plan.updated",
-  "invoice_id": null,
-  "plan": "pro",
-  "expires_at": 1794592000
 }
 ```
 

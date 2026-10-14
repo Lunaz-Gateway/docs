@@ -30,7 +30,7 @@ Shielded Zcash hides these details. Lunaz adds the parts that a shop needs to ta
 - A CSV export for your accountant.
 - A withdraw-to-bank flow through a licensed partner.
 
-All plans include all features. The plans differ only by volume. See [Pricing](../../pricing/).
+Every merchant gets all features. You pay a small fee on each payment, and there are no monthly plans. See [Pricing](../../pricing/).
 
 ## The name
 

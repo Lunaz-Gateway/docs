@@ -9,7 +9,7 @@ A buyer pays an invoice with a shielded Zcash wallet. Your system creates the in
 
 ## Show the payment request
 
-The response of `POST /v1/invoices` contains a `zip321_uri`. ZIP-321 is the Zcash standard for payment request URIs. The URI holds the address, the amount and a memo that links the payment to the invoice.
+The response of `POST /v1/invoices` contains a `zip321_uri`. ZIP-321 is the Zcash standard for payment request URIs. The URI holds the address, the amount and a memo that links the payment to the invoice. It also has a second payment for the Lunaz fee. The buyer pays the fee on top of the price.
 
 <Steps>
 
@@ -17,7 +17,7 @@ The response of `POST /v1/invoices` contains a `zip321_uri`. ZIP-321 is the Zcas
 
 2. Send the `id`, `address` and `zip321_uri` to your checkout page.
 
-3. Encode the `zip321_uri` as a QR code.
+3. Encode the `zip321_uri` as a QR code, or show it as a link. Use it as it is. Do not build your own request from the address and the amount, because that drops the fee.
 
 4. Show the QR code and the `address` as text.
 

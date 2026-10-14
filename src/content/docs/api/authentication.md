@@ -15,7 +15,7 @@ Authorization: Bearer lz_your_api_key
 
 Create and revoke keys on the API keys page of the [Lunaz dashboard](https://lunaz.example.com/dashboard). The dashboard shows a key one time. Copy it at once and keep it on your server.
 
-Revoke a key at once if it leaks. The number of active keys depends on your plan. See [Pricing](../../pricing/).
+Revoke a key at once if it leaks.
 
 ## Endpoints without a key
 

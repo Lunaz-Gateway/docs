@@ -1,50 +1,38 @@
 ---
 title: Pricing
-description: Lunaz plans, limits and how to pay for a plan in ZEC.
+description: Lunaz fees. You pay only when you get paid.
 ---
 
 import { Aside } from '@astrojs/starlight/components';
 
-Lunaz has a free tier and monthly plans. Lunaz does not take a share of your payments, because it never holds the funds.
+Lunaz is a managed service. You pay only when you get paid. There are no monthly plans, no setup fee, no invoice limits and no API key limits. Every feature is available to every merchant: shielded invoices, cross-chain payments, signed webhooks, the accountant export and withdraw to bank.
 
-All plans include every feature: shielded invoices, cross-chain payments, signed webhooks, the accountant export and withdraw to bank. The plans differ only by volume.
+| Payment | Lunaz fee | Who pays |
+| --- | --- | --- |
+| Shielded ZEC | 0.5% (minimum 1,000 zatoshis, 0.00001 ZEC) | The buyer, on top of the price |
+| Cross-chain (NEAR Intents) | 0.25% app fee on the swap | The buyer, inside the deposit amount |
 
-| Plan | Price per month | Invoices per month | API keys | For |
-| --- | --- | --- | --- | --- |
-| Free | 0 USD | 100 | 2 | Trials and small shops |
-| Pro | 29 USD | 5,000 | 10 | Growing online stores |
-| Platform | 199 USD | Unlimited | 50 | Marketplaces with many sellers |
-| Enterprise | Contact us | Custom | Custom | Service levels and compliance |
+Lunaz takes no fee from the amount that you receive.
 
-<Aside type="note">
-The prices and limits are a first version. Feedback is welcome.
+## Shielded payments
+
+The `zip321_uri` of an invoice is a payment request with two payments in one shielded transaction:
+
+1. The amount of the invoice, to the invoice address of the merchant.
+2. The Lunaz fee, to a Lunaz address.
+
+The buyer pays the fee on top of the price. The fee goes from the buyer to Lunaz in the same transaction. Lunaz never holds or touches your funds. The fee output is shielded, so it is private too.
+
+<Aside type="caution">
+Always show the `zip321_uri` to the buyer, as a QR code or a link. Do not build your own request from the address and the amount. If you do, the fee is lost.
 </Aside>
 
-## What counts as an invoice
+If a buyer's wallet pays only the merchant part, the invoice is still marked `paid`. The buyer is never blocked. Lunaz bills the missing fee to the merchant later.
 
-Each invoice that you create counts as one invoice in the current month. The month starts at 00:00 UTC on the first day. Invoices that pay for a Lunaz plan do not count.
+## Cross-chain payments
 
-An API key counts while it is active. A revoked key does not count.
-
-## When you reach a limit
-
-The API returns 402 with the `limit`, the `used` count and your `plan`. Existing invoices keep working. See [Errors](../api/errors/).
-
-## Pay for a plan
-
-You pay in ZEC through a Lunaz invoice. Open the Billing page in the dashboard, choose a plan and a period, and pay the invoice with your Zcash wallet. When the invoice is paid, the plan is active for the paid period.
-
-- You can buy 1, 3 or 12 months.
-- The amount is the USD price converted at the ZEC price when you start the checkout.
-- The checkout invoice is valid for 30 minutes.
-- A month is 30 days.
-
-### Upgrades and renewals
-
-An upgrade starts at once. There is no proration. A renewal of the same plan adds the new period after the current period ends.
-
-Renewal is manual. There is no automatic charge. To renew, pay a new invoice. When a plan expires, the account goes back to Free, and Lunaz sends a `plan.updated` webhook.
+A buyer who pays with another asset pays a 0.25% app fee on the swap. The fee is part of the deposit amount. The merchant still receives the full invoice amount. See [Accept other crypto](../guides/accept-other-crypto/).
 
 ## Enterprise
 
-Contact us for service levels, compliance needs or volumes above the Platform plan.
+Contact us for volume pricing.
