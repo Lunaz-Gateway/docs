@@ -42,6 +42,8 @@ A swap needs an invoice of approximately 0.001 ZEC (100000 zat) or more.
 
    If `deposit_memo` is not empty, show it as well.
 
+   If `deposit_uri` is not `null`, encode it in a QR code. The buyer's wallet then fills in the token, amount and address.
+
 6. Show the `deadline` to the buyer.
 
 7. Follow the status with the WebSocket or the webhooks.

@@ -68,7 +68,7 @@ Auth: none. The invoice ID is the access token.
 }
 ```
 
-When a swap exists, `swap` is an object.
+When a swap exists, `swap` is an object. See [Start a swap](../swaps/#start-a-swap) for `deposit_uri`.
 
 ```json
 {
@@ -77,7 +77,9 @@ When a swap exists, `swap` is an object.
   "blockchain": "eth",
   "deposit_address": "0xExampleDepositAddress0000000000000000000",
   "amount_in_formatted": "3.52",
-  "deadline": "2026-10-13T12:30:00Z"
+  "deadline": "2026-10-13T12:30:00Z",
+  "deposit_memo": null,
+  "deposit_uri": "ethereum:0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48@1/transfer?address=0xExampleDepositAddress0000000000000000000&uint256=3520000"
 }
 ```
 

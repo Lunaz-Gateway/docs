@@ -5,6 +5,8 @@ description: Changes to Lunaz and to this documentation.
 
 ## 2026-10-18
 
+Swaps have a `deposit_uri`, a wallet payment request with the token, amount and deposit address. Encode it in the deposit QR code. The swap in the invoice status has it too, and the asset list has `contract_address`. See [Swaps](../../api/swaps/#start-a-swap).
+
 New accounts have limits on payment volume, mostly on cross-chain payments. The limits rise automatically as the account builds a history, and the dashboard shows them. Over a limit, the API returns 403 with the code `limit_exceeded`. See [Errors](../../api/errors/#account-limits).
 
 ## 2026-10-14
