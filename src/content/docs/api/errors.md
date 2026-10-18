@@ -20,6 +20,7 @@ Use the status code for your logic. The message text can change.
 | 200, 201 | Success. |
 | 400 | Invalid input, or the account is not ready (for example no viewing key). |
 | 401 | Missing, invalid or revoked API key. |
+| 403 | An account limit was reached. The body has `"code": "limit_exceeded"`. See [Account limits](#account-limits). |
 | 404 | The invoice does not exist. |
 | 409 | The action conflicts with the current state of the invoice. |
 | 429 | Too many requests. |
@@ -30,3 +31,13 @@ Use the status code for your logic. The message text can change.
 ## Rate limits (429)
 
 `POST /v1/invoices/{id}/swap` allows 5 requests for each invoice in 10 minutes. When you receive 429, wait and send the request again.
+
+## Account limits
+
+New accounts have limits on payment volume, mostly on cross-chain payments. The limits rise automatically as the account builds a history of payments. The dashboard shows your current limits and how much of them you used.
+
+When a request goes over a limit, the API returns 403 with `"code": "limit_exceeded"`. The `error` message tells you which limit was reached.
+
+```json
+{ "error": "limit reached: ...", "code": "limit_exceeded" }
+```
